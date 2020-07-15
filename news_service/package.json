@@ -1,0 +1,18 @@
+{
+  "name": "user_service",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon -e txt,js,html,json -L ./app.js",
+    "prestart": "npm install"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.620.0",
+    "dotenv": "^8.2.0",
+    "nodemon": "^1.19.3",
+    "pg": "^8.3.0",
+    "seneca": "^3.13.3",
+    "seneca-amqp-transport": "^2.2.0",
+    "winston": "^3.3.3"
+  }
+}
