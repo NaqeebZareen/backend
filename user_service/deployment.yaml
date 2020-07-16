@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: youcan_backend
+  template:
+    metadata:
+      labels:
+        app: youcan_backend
+        tier: userservice-deployment
+    spec:
+      containers:
+      - name: userservice-deployment
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/user:0.0.1
+        args:
+        - ./scripts/Entrypoint.sh
+        env:
+        - name: AMQP_URL
+          value: rabbitmq-service:8081
+        - name: database_host
+          value: "youcav-db.cnfabpkcjfhv.us-east-1.rds.amazonaws.com"
+        - name: database_password
+          value: Qwerty12
+        - name: schema
+          value: activityservice
+        - name : elasticsearch
+          value : https://search-youcan-oaukgyoxh2j74tmhs2mo4y7dge.us-east-1.es.amazonaws.com
