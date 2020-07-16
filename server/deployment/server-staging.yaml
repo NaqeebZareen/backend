@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newsservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: youcan_backend
+  template:
+    metadata:
+      labels:
+        app: youcan_backend
+        tier: newsservice
+    spec:
+      containers:
+        - name: newsservice
+          image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/gateway:0.0.6
+          ports:
+            - containerPort: 3000
+          args:
+          - ./scripts/Entrypoint.sh
+          env:
+            - name: AMQP_URL
+              value: rabbitmq-service.default.svc.cluster.local:8081
+            - name : connection
+              value : mongodb://Administrator:Qwerty12#$$@youcan-cluster-shard-00-00-ms4fp.gcp.mongodb.net:27017,youcan-cluster-shard-00-01-ms4fp.gcp.mongodb.net:27017,youcan-cluster-shard-00-02-ms4fp.gcp.mongodb.net:27017/server?ssl=true&replicaSet=Youcan-Cluster-shard-0&authSource=admin
