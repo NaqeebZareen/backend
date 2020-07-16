@@ -1,3 +1,8 @@
+const cors = require('cors');
+
+//Add cors to the server
+app.options('*', cors());
+
 //import middle wares for configuration into app.js
 const requestDispatcher = require('./src/interface/middlewares/requestDispatcher');
 
