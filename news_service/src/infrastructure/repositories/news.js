@@ -3,9 +3,7 @@ const { repoHelper } = require('../../../utils')
 
 
 const searchNews = async (filterObject,limit,offset) => {
-    console.log(filterObject, 'data from db=>', repoHelper.convertArrayToString(filterObject.cities));
-
-    let query = `SELECT n.id::int, n.duplicate_title as title, n.sub_heading, n.publication_date, n.picture, n.source_name, n.city,nv.positive_votes,nv.negative_votes 
+    let query = `SELECT n.id::int, n.duplicate_title as title, n.sub_heading, n.publication_date, n.picture, n.source_name, n.city,nv.positive_votes,nv.negative_votes,n.is_bookmarked 
     FROM newsservice.news n
     join newsservice.news_votes nv 
     on n.id =nv.news_id 
@@ -33,7 +31,7 @@ const searchNews = async (filterObject,limit,offset) => {
 }
 
 const searchDetailedNews = async (newsId, offset) => {
-    let query = `SELECT n.id::int, n.sub_heading, n.body, n.publication_date, n.source_link, n.picture, n.duplicate_title as title , n.source_name, n.city,nv.positive_votes,nv.negative_votes 
+    let query = `SELECT n.id::int, n.sub_heading, n.body, n.publication_date, n.source_link, n.picture, n.duplicate_title as title , n.source_name, n.city,nv.positive_votes,nv.negative_votes,n.is_bookmarked 
     FROM newsservice.news as n
     join newsservice.news_votes nv 
     on n.id =nv.news_id
@@ -43,7 +41,7 @@ const searchDetailedNews = async (newsId, offset) => {
         const { rows } = await db.query(query, values);
         let newsDetail = rows[0];
         console.log('News Details=>>>>>>', newsDetail);
-        let similarNewsQuery = `SELECT n.id, n.duplicate_title as title, n.sub_heading, n.publication_date, n.picture, n.source_name, n.city,nv.positive_votes,nv.negative_votes 
+        let similarNewsQuery = `SELECT n.id, n.duplicate_title as title, n.sub_heading, n.publication_date, n.picture, n.source_name, n.city,nv.positive_votes,nv.negative_votes,n.is_bookmarked 
         FROM newsservice.news n
         join newsservice.news_votes nv 
         on n.id =nv.news_id 
@@ -56,8 +54,7 @@ const searchDetailedNews = async (newsId, offset) => {
             obj.total_votes = obj.positive_votes + obj.negative_votes;
             obj.positive_percentage = (obj.positive_votes / obj.total_votes) * 100;
             obj.negative_percentage = (obj.negative_votes / obj.total_votes) * 100;
-        })
-        console.log('News similar=>>>>>>', newsDetail);
+        });
         return { news_detail: newsDetail, similar_news: similarNews.rows }
         // return (rows[0]);
     } catch (error) {

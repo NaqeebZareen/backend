@@ -43,7 +43,6 @@ module.exports = {
         }
     },
     generateResponse: (req, res, data, dataProperty, message, statusCode) => {
-        console.log(`data in generate response`,data);
         logger.info('Response Send from Server=> ', { route: req.url, response_message: message });
         if (data.Ok) {
             let responseDaata = {};
