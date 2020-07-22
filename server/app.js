@@ -14,7 +14,7 @@ const responseHelper = require('./src/interface/helpers/response-helper');
 const { usersRouter, authenticationRouter,bookmarkRouter } = require('./src/interface/routes/user_service');
 const noParameterRequest = require('./src/interface/middlewares/no-parameter-request');
 const { error } = require('console');
-const { newsRouter } = require('./src/interface/routes/news_service');
+const { newsRouter,newsVotingRouter } = require('./src/interface/routes/news_service');
 
 //Constants variables iniatialiazation 
 const app = express();
@@ -34,7 +34,8 @@ app.use(requestDispatcher());
 app.use(`${APIVERSION}/user`, passport.authenticate('jwt', { session: false }), usersRouter);
 app.use(`${APIVERSION}/user/bookmarks`, passport.authenticate('jwt', { session: false }), bookmarkRouter);
 app.use(`${APIVERSION}/auth`, authenticationRouter);
-app.use(`${APIVERSION}/news`, passport.authenticate('jwt', { session: false }), newsRouter)
+app.use(`${APIVERSION}/news`, passport.authenticate('jwt', { session: false }), newsRouter),
+app.use(`${APIVERSION}/news/vote`, newsVotingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
