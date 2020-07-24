@@ -26,7 +26,6 @@ module.exports = class UserController {
     async upVoteNews(arr) {
         let data = null;
         let userVoteData = await newsRepository.getUserVote(arr.newsId, arr.userId);
-        console.log(userVoteData);
         if (!userVoteData) {
             newsRepository.addUserVote(arr.newsId, arr.userId, true, false);
             data = await newsRepository.upVoteNews(arr.newsId);
@@ -34,7 +33,6 @@ module.exports = class UserController {
         else {
             if (userVoteData.positive_voted)
                 throw new Error(`User has Already Up Voted the News with ID ${arr.newsId}`);
-            console.log('upvote in last else');
             newsRepository.updateUserVote(arr.newsId, arr.userId, true, false);
             data = await newsRepository.upVoteNews(arr.newsId);
         }

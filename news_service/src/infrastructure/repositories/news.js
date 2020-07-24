@@ -35,7 +35,7 @@ const searchNews = async (filterObject, userId, limit, offset) => {
     }
 }
 
-const searchDetailedNews = async (newsId,userId, offset) => {
+const searchDetailedNews = async (newsId, userId, offset) => {
     let query = `SELECT n.id::int, n.sub_heading, n.body, n.publication_date, n.source_link, n.picture,
     n.duplicate_title as title , n.source_name,n.share_link, n.city,n.is_bookmarked,
     nv.positive_votes,nv.negative_votes,
@@ -201,7 +201,7 @@ const updateUserVote = async (newsId, userId, positive_voted, negative_voted) =>
     let queryToUpdateVotes = `UPDATE newsservice.news_votes
     SET positive_votes=case when ${negative_voted} then positive_votes-1 else positive_votes end,
     negative_votes =case when ${positive_voted} then negative_votes-1 else negative_votes end
-    WHERE news_id=130955 returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    WHERE news_id=${newsId} returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
 
     try {
         db.query(queryToUpdateVotes);
