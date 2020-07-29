@@ -1,9 +1,9 @@
 {
-  "name": "user_service",
+  "name": "news_service",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e txt,js,html,json -L ./app.js",
+    "start": "nodemon -e log,js,html,json -L ./app.js",
     "prestart": "npm install"
   },
   "dependencies": {

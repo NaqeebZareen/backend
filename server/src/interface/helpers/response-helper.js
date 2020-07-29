@@ -44,23 +44,7 @@ module.exports = {
     },
     generateResponse: (req, res, data, dataProperty, message, statusCode) => {
         logger.info('Response Send from Server=> ', { route: req.url, response_message: message });
-        if (data.Ok) {
-            let responseDaata = {};
-            if (dataProperty)
-                responseDaata[dataProperty] = data.Ok;
-            else responseDaata = data.Ok;
-            return (data.Ok) ? res.status(statusCode || 200).json({
-                status_code: statusCode || 200,
-                response: {
-                    message: message || null, data: responseDaata
-                }
-            }) : res.status(204).json({
-                status_code: 204,
-                response: {
-                    message: message || null, data: data.Ok
-                }
-            });
-        } else {
+        if (data.Error) {
             return res.status(500).json({
                 status_code: 500,
                 error: {
@@ -72,5 +56,20 @@ module.exports = {
                 }
             });
         }
+        let responseData = {};
+        if (dataProperty)
+            responseData[dataProperty] = data.Ok;
+        else responseData = data.Ok;
+        return (data.Ok) ? res.status(statusCode || 200).json({
+            status_code: statusCode || 200,
+            response: {
+                message: message || null, data: responseData
+            }
+        }) : res.status(204).json({
+            status_code: 204,
+            response: {
+                message: message || null, data: data.Ok
+            }
+        });
     }
 }

@@ -5,6 +5,9 @@ const databaseOptions = {
     host:'youcav-db.cnfabpkcjfhv.us-east-1.rds.amazonaws.com',
     database:'youcan',
     password:'Qwerty12'
+    // max: 20,
+    // idleTimeoutMillis: 30000,
+    // connectionTimeoutMillis: 2000
 }
 
 const pool = new Pool(databaseOptions);

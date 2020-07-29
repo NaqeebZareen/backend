@@ -1,7 +1,7 @@
 const winston = require('winston')
 
 function isDevEnvironment() {
-    return true;
+    return false;
 }
 
 const customLevels = {
@@ -77,12 +77,4 @@ class Logger {
         this.logger.log('fatal', msg, meta);
     }
 }
-
-const logger = new Logger();
-logger.info("Hello info message ", { info: "hello" });
-logger.error("HELLO Error method", { erorr: "Error" });
-logger.warn("Hello Warning", { warn: "warning" });
-logger.debug("Hello Debug", { debug: "Debug" });
-logger.fatal("hello Fetal", { Fetal: "fetal" });
-logger.trace("Hello Trace", { trace: "trace" });
-module.exports= logger;
+module.exports= new Logger();
