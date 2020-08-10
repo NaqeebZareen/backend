@@ -3,7 +3,7 @@ const { repoHelper } = require('../../../utils')
 
 
 const searchNews = async (filterObject, userId, limit, offset) => {
-    let query = `SELECT n.id::int, n.duplicate_title as title, n.sub_heading, LEFT (summary, 350) as body,
+    let query = `SELECT n.id::int, n.duplicate_title as title, n.sub_heading, summary as body,
     n.publication_date, n.picture, n.source_name, n.source_link, n.share_link, n.city,n.is_bookmarked,
     nv.positive_votes,nv.negative_votes,
     uv.positive_voted ,uv.negative_voted
