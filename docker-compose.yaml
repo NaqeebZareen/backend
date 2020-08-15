@@ -21,15 +21,15 @@ services:
       - ./user_service:/app
     command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
-  # activity_service:
-  #   build: ./activity_service
-  #   environment: 
-  #     - AMQP_URL=rabbitmq:5672
-  #   depends_on: 
-  #     - "rabbitmq"
-  #   volumes: 
-  #     - ./activity_service:/app
-  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  activity_service:
+    build: ./activity_service
+    environment: 
+      - AMQP_URL=rabbitmq:5672
+    depends_on: 
+      - "rabbitmq"
+    volumes: 
+      - ./activity_service:/app
+    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   news_service:
     build: ./news_service

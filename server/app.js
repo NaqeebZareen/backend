@@ -11,10 +11,10 @@ const passport = require('passport');
 const responseHelper = require('./src/interface/helpers/response-helper');
 
 //Import Routes files
-const { usersRouter, authenticationRouter,bookmarkRouter } = require('./src/interface/routes/user_service');
-const noParameterRequest = require('./src/interface/middlewares/no-parameter-request');
-const { error } = require('console');
-const { newsRouter,newsVotingRouter } = require('./src/interface/routes/news_service');
+const { usersRouter, authenticationRouter, bookmarkRouter } = require('./src/interface/routes/user_service');
+const { newsRouter, newsVotingRouter } = require('./src/interface/routes/news_service');
+const { activityRoute } = require('./src/interface/routes/activity_service');
+
 
 //Constants variables iniatialiazation 
 const app = express();
@@ -34,8 +34,9 @@ app.use(requestDispatcher());
 app.use(`${APIVERSION}/user`, passport.authenticate('jwt', { session: false }), usersRouter);
 app.use(`${APIVERSION}/user/bookmarks`, passport.authenticate('jwt', { session: false }), bookmarkRouter);
 app.use(`${APIVERSION}/auth`, authenticationRouter);
-app.use(`${APIVERSION}/news`, passport.authenticate('jwt', { session: false }), newsRouter),
+app.use(`${APIVERSION}/news`, passport.authenticate('jwt', { session: false }), newsRouter);
 app.use(`${APIVERSION}/news/vote`, newsVotingRouter);
+app.use(`${APIVERSION}/activity`, passport.authenticate('jwt', { session: false }), activityRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -43,7 +44,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // only providing error in development
   if (req.app.get('env') === 'development') {
     console.log('hello this is development');

@@ -15,6 +15,12 @@ const newsClient = seneca.client({
     url: process.env.AMQP_URL
 });
 
+const activityClient = seneca.client({
+    type: 'amqp',
+    pin: 'service:activity_service,cmd:*',
+    url: process.env.AMQP_URL
+});
+
 function callUserService(command, params = null) {
     return new Promise((resolve, reject) => {
         userClient.act(`service:user_service,cmd:${command}`, { params }, (error, data) => {
@@ -37,7 +43,19 @@ function callNewsService(command, params = null) {
     });
 }
 
+function callActivityService(command, params = null) {
+    return new Promise((resolve, reject) => {
+        activityClient.act(`service:activity_service,cmd:${command}`, { params }, (error, data) => {
+            if (data)
+                resolve(data);
+            if (error)
+                reject(error);
+        });
+    });
+};
+
 module.exports = {
     callUserService,
-    callNewsService
+    callNewsService,
+    callActivityService
 }

@@ -1,3 +1,5 @@
+const repoHelper = require('./repo-helper')
+
 function generateParamsForCrashReport(err) {
     let errorKeys = Object.keys(err);
     let error = '';
@@ -35,5 +37,6 @@ function generateParamsForCrashReport(err) {
 }
 
 module.exports={
-    generateParamsForCrashReport
+    generateParamsForCrashReport,
+    repoHelper
 }

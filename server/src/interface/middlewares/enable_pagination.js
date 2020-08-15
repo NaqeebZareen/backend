@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
             body: req.body
         });
     req.body.limit = req.body.recordsPerPage;
-    req.body.offset = req.body.pageNo == 1 ? 0 : req.body.recordsPerPage * req.body.pageNo;
+    req.body.offset = req.body.pageNo == 1 ? 0 : req.body.recordsPerPage * (req.body.pageNo - 1);
     delete req.body.recordsPerPage;
     next()
 }
