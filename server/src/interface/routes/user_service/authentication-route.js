@@ -41,7 +41,7 @@ router.post('/register', validator(authenticationSchemas.register, 'body')
             .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
     });
 
-router.post('/login', validator(authenticationSchemas.register, 'body')
+router.post('/login', validator(authenticationSchemas.login, 'body')
     , passport.authenticate('jwt', { session: false })
     , (req, res, next) => {
         let params = req.body;

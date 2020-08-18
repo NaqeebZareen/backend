@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const userToken = Joi.object().keys({
     deviceId: Joi.string().required().lowercase().trim(),
     city: Joi.string().required().lowercase().trim(),
+    country: Joi.string().lowercase().optional().trim(),
     deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim()
 });
 
@@ -38,8 +39,8 @@ const login = Joi.object().keys({
     birthday: Joi.string().lowercase().optional().trim(),
     deviceId: Joi.string().lowercase().required().trim(),
     city: Joi.string().lowercase().required().trim(),
-    country: Joi.string().lowercase().required().trim(),
-    deviceType: Joi.string().lowercase().required().trim()
+    country: Joi.string().lowercase().optional().trim(),
+    deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim()
 });
 
 module.exports = {

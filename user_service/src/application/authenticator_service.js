@@ -35,7 +35,7 @@ module.exports = class AutherticatorService {
                     return userData.token
                 } else throw new Error(`Provided code is Expired.`);
             } else throw new Error(`Invalid Security Code provided. Please Provide a valid code to proceed.`);
-        } else throw new Error(`No record Found please verify your email first.`);
+        } else throw new Error(`No record found for specific Token Provided`);
     }
 
     async registerUser(arr) {
@@ -43,7 +43,7 @@ module.exports = class AutherticatorService {
         console.log('data from finding the user data', userDetailData);
         let securityCode = null;
         if (!userData)
-            throw new Error('No record Found for following user');
+            throw new Error('No record found for specific Token Provided');
         if (userDetailData) {
             console.log('inside after getting record');
             securityCode = await userService.updateSecurityCode({ userId: arr.userId });
@@ -65,8 +65,9 @@ module.exports = class AutherticatorService {
 
     async loginUser(arr) {
         let { userData, userDetailData } = await userService.findUser({ userId: arr.userId }, true);
-        if (!userDetailData)
+        if (userData && !userDetailData)
             await userService.createUserProfile(arr);
+        else throw new Error(`No record found for specific Token Provided`);
         return userData.token
     }
 }
