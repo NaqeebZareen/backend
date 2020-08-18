@@ -1,5 +1,5 @@
 module.exports = (securityCode) => {
-    let html = `
+    return `
 <!doctype html>
 <html>
 
@@ -237,7 +237,7 @@ module.exports = (securityCode) => {
                                         <th style="width: 100%; padding-left: 10px; padding-right: 10px;">
                                             <font id="font"
                                                 style=" font-family: Roboto;font-style: normal;font-weight: normal ;font-size: 18px; word-wrap:break-word;line-height: 28px;letter-spacing: 0.04em; color: rgba(0, 0, 0, 0.5); ">
-                                                Thanks for signing up. Please enter the following code to verify your
+                                                Please enter the following code to verify your
                                                 email.
                                             </font>
                                         </th>
@@ -290,8 +290,4 @@ module.exports = (securityCode) => {
 
 </html>
     `;
-
-    return {
-        html
-    }
 }

@@ -37,7 +37,7 @@ router.post('/register', validator(authenticationSchemas.register, 'body')
         let params = req.body;
         params.userId = req.user;
         serviceCalls.callUserService('register_user', params)
-            .then(data => responseHelper.generateResponse(req, res, data, 'token'))
+            .then(data => responseHelper.generateResponse(req, res, data, null, 'successfully send mail to the User'))
             .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
     });
 

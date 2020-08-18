@@ -14,5 +14,6 @@ module.exports = {
         region: process.env.AWS_REGION
     },
 
-    jwtSecret: process.env.JWT_SECRET
+    jwtSecret: process.env.JWT_SECRET,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || "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"
 };

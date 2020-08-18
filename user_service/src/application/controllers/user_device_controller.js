@@ -3,7 +3,7 @@ const SearchDeviceByOwner = require('../../domain/device/search_device_by_owner'
 const FindDevice = require('../../domain/device/search_device');
 const UserDeviceEntity = require('../../domain/device/user_device');
 
-const DEVICE_COLLECTION = 'user.devices';
+const DEVICE_COLLECTION = 'user_devices';
 
 module.exports = class DeviceController {
 

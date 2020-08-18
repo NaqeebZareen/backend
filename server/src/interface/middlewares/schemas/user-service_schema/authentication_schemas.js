@@ -2,10 +2,8 @@ const Joi = require('@hapi/joi');
 
 const userToken = Joi.object().keys({
     deviceId: Joi.string().required().lowercase().trim(),
-    location: Joi.string().required().lowercase().trim(),
     city: Joi.string().required().lowercase().trim(),
-    deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim(),
-    country: Joi.string().required().lowercase().trim()
+    deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim()
 });
 
 const registrationToken = Joi.object().keys({

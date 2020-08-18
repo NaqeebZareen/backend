@@ -1,8 +1,13 @@
+const sendgridMail = require('@sendgrid/mail')
 const UserController = require('./controllers/user_controller')
 const DeviceController = require('./controllers/user_device_controller')
+const verifyEmail = require('../interface/email-template/verify_email')
+const EmailMessage = require('../domain/email-message')
+const config = require('../../config')
 
 let userService = new UserController();
 let deviceService = new DeviceController();
+sendgridMail.setApiKey(config.SENDGRID_API_KEY);
 
 module.exports = class AutherticatorService {
 
@@ -14,7 +19,7 @@ module.exports = class AutherticatorService {
     async getAnonymousToken(arr) {
         console.log(`data from authenticator Service=>`, arr);
         let { userData } = await userService.create(arr);
-        console.log(`data returned from authenticator Service=>`,userData);
+        console.log(`data returned from authenticator Service=>`, userData);
         arr.userId = userData.userId;
         deviceService.create(arr);
         return userData.token;
@@ -34,14 +39,28 @@ module.exports = class AutherticatorService {
     }
 
     async registerUser(arr) {
-        let { userDetailData } = await userService.findUser({ userId: arr.userId }, false);
+        let { userData, userDetailData } = await userService.findUser({ userId: arr.userId }, true);
+        console.log('data from finding the user data', userDetailData);
         let securityCode = null;
+        if (!userData)
+            throw new Error('No record Found for following user');
         if (userDetailData) {
+            console.log('inside after getting record');
             securityCode = await userService.updateSecurityCode({ userId: arr.userId });
         } else {
+            console.log('profile not found');
             securityCode = await userService.createUserProfile(arr).securityCode;
         }
-        return securityCode;
+        let email = new EmailMessage({
+            to: arr.email,
+            from: 'noreply@youcan.tech',
+            subject: 'Verification Code',
+            html: verifyEmail(securityCode)
+        });
+        sendgridMail.send(email)
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+        return { email: arr.email };
     }
 
     async loginUser(arr) {

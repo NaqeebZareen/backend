@@ -2,7 +2,7 @@ const crudRepository = require('../../infrastructure/repositories/simple_crud');
 const { createUserAndDetailsEntity, UserDetail, SearchUser, SearchUserById, UpdateSecurityCode } = require('../../domain/user');
 
 const USER_COLLECTION = `users`;
-const USER_DETAILS_COLECTION = `user.details`;
+const USER_DETAILS_COLECTION = `user_details`;
 
 module.exports = class UserController {
 
@@ -19,7 +19,7 @@ module.exports = class UserController {
         let userData = null, userDetailData = null;
         let userSearchEntity = new SearchUserById(userIdObject);
         userData = await crudRepository(USER_COLLECTION).findOne(userSearchEntity);
-        if (fetchProfile && userData.isRegistered)
+        if (userData && userData.isRegistered && fetchProfile)
             userDetailData = await crudRepository(USER_DETAILS_COLECTION).findOne(userSearchEntity);
         return { userData, userDetailData }
     }
@@ -47,6 +47,7 @@ module.exports = class UserController {
         let userSearchEntity = new SearchUserById(userIdObject);
         let updateSecurityCode = new UpdateSecurityCode();
         let updatedRecord = await crudRepository(USER_DETAILS_COLECTION).update(userSearchEntity, updateSecurityCode);
+        console.log(updatedRecord);
         if (updatedRecord.updated)
             return updateSecurityCode.securityCode;
         else throw new Error(`Record is not updated due to some error`);
@@ -54,7 +55,11 @@ module.exports = class UserController {
 
     async createUserProfile(arr) {
         let userDetailEntity = new UserDetail(arr);
+        console.log(userDetailEntity);
         let userDetailData = await crudRepository(USER_DETAILS_COLECTION).create(userDetailEntity);
+        console.log(userDetailData);
+        let abc=await crudRepository(USER_COLLECTION).update({userId:arr.userId},{isRegistered:true});
+        console.log('data after update',abc);
         return userDetailData;
     }
 }
