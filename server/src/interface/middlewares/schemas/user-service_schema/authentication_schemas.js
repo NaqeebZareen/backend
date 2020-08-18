@@ -4,7 +4,7 @@ const userToken = Joi.object().keys({
     deviceId: Joi.string().required().lowercase().trim(),
     location: Joi.string().required().lowercase().trim(),
     city: Joi.string().required().lowercase().trim(),
-    deviceType: Joi.string().required().lowercase().trim(),
+    deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim(),
     country: Joi.string().required().lowercase().trim()
 });
 
@@ -24,7 +24,7 @@ const registrationToken = Joi.object().keys({
     deviceId: Joi.string().lowercase().optional().trim(),
     city: Joi.string().lowercase().optional().trim(),
     country: Joi.string().lowercase().optional().trim(),
-    deviceType: Joi.string().lowercase().optional().trim()
+    deviceType: Joi.string().valid('WEBSITE','MOBILE').required().trim()
 });
 
 const register = Joi.object().keys({
