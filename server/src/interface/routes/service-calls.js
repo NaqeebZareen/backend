@@ -1,7 +1,11 @@
 const seneca = require('seneca')();
+const HomeController = require('../../application/controllers/home-controller');
 
 //seneca configuration;
 seneca.use('seneca-amqp-transport');
+
+//Initialize classes
+const homeService = new HomeController();
 
 const userClient = seneca.client({
     type: 'amqp',
@@ -54,8 +58,15 @@ function callActivityService(command, params = null) {
     });
 };
 
+const callHome = {
+    getcitiesAndInterestList: async () => {
+        return { Ok: await homeService.getcitiesAndInterestList() };
+    }
+};
+
 module.exports = {
     callUserService,
     callNewsService,
-    callActivityService
+    callActivityService,
+    callHome
 }

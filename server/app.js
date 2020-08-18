@@ -11,10 +11,10 @@ const passport = require('passport');
 const responseHelper = require('./src/interface/helpers/response-helper');
 
 //Import Routes files
+const homeRouter = require('./src/interface/routes/home');
 const { usersRouter, authenticationRouter, bookmarkRouter } = require('./src/interface/routes/user_service');
 const { newsRouter, newsVotingRouter } = require('./src/interface/routes/news_service');
 const { activityRoute } = require('./src/interface/routes/activity_service');
-
 
 //Constants variables iniatialiazation 
 const app = express();
@@ -31,6 +31,7 @@ app.use(requestDispatcher());
 // app.use(noParameterRequest());
 
 //Inject Routes
+app.use(`${APIVERSION}`, homeRouter);
 app.use(`${APIVERSION}/user`, passport.authenticate('jwt', { session: false }), usersRouter);
 app.use(`${APIVERSION}/user/bookmarks`, passport.authenticate('jwt', { session: false }), bookmarkRouter);
 app.use(`${APIVERSION}/auth`, authenticationRouter);

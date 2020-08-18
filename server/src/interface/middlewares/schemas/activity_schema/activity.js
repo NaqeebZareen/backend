@@ -13,7 +13,7 @@ const activitySearch = Joi.object().keys({
     text: Joi.string().uppercase().optional().trim(),
     date:Joi.date().iso().min(Joi.ref('$todayDate')).optional(),
     dateRange: Joi.array().min(2).sort({ order: 'ascending' }).items(Joi.date().iso().required()),
-    categories: Joi.array().max(15).items(Joi.number().min(0).max(14).required()).optional(),
+    categories: Joi.array().max(15).items(Joi.string().required()).optional(),
     city: Joi.string().required(),
     pageNo: Joi.number().required(),
     recordsPerPage: Joi.number().required()

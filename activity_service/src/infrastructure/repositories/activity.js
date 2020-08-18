@@ -88,6 +88,7 @@ const getDetailedActivity = async (activityId,userId) => {
     AND sa.user_id= '${userId}'
     where a.id=${activityId} and
     a.status = 'Approved';`
+        
     try {
         const { rows } = await db.query(detailQuery);
         return (rows);

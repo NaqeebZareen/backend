@@ -14,7 +14,9 @@ services:
     command: ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
   
   user_service:
-    build: ./user_service 
+    build: ./user_service
+    environment: 
+      - AMQP_URL=rabbitmq:5672
     depends_on: 
       - "rabbitmq"
     volumes: 
