@@ -2,7 +2,7 @@ const crudRepository = require('../../infrastructure/repositories/simple_crud')
 const { UserMainInterest, SearchUserInterests } = require('../../domain/user-interests')
 
 
-const INTEREST_COLLECTION = 'user.interests'
+const INTEREST_COLLECTION = 'user_interests'
 
 module.exports = class UserInterestsController {
 

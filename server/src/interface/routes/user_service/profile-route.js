@@ -10,13 +10,7 @@ const router = express.Router();
 
 
 /* GET users listing. */
-router.get('/profile', (req, res, next) => {
-  console.log('in rv')
-  // if (Object.keys(req.body).length === 0 && Object.keys(req.query).length === 0)
-    next()
-  // else
-    // return responseHelper.validationError(res, { message: `This API don't accept any parameters or body` })
-}
+router.get('/profile'
   , async (req, res, next) => {
     let params = { userId: req.user };
     serviceCalls.callUserService('get_user_profile', params)
@@ -25,14 +19,14 @@ router.get('/profile', (req, res, next) => {
       .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
   });
 
-router.put('/profile/update',validator()
-, async (req, res, next) => {
-  let params = req.body;
-  params.userId = req.user;
-  serviceCalls.callUserService('update_user_profile', params)
-    .then(data => responseHelper.generateResponse(req, res, data, 'user_profile', 'Accepted for Updation', 202))
-    .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
-});
+router.put('/profile/update', validator(profileSchemas.update,'body')
+  , async (req, res, next) => {
+    let params = req.body;
+    params.userId = req.user;
+    serviceCalls.callUserService('update_user_profile', params)
+      .then(data => responseHelper.generateResponse(req, res, data, 'user_profile', 'Accepted for Updation', 202))
+      .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
+  });
 
 router.get('/interests', async (req, res, next) => {
   let params = { userId: req.user };
@@ -63,7 +57,7 @@ router.post('/interests', async (req, res, next) => {
 router.delete('/interests/remove', async (req, res, next) => {
   let params = { userId: req.user };
   serviceCalls.callUserService('remove_user_interests', params)
-    .then(data => responseHelper.generateResponse(req, res, profileData, 'user_interests', 'Succesfully deleted the User Interests.'))
+    .then(data => responseHelper.generateResponse(req, res, data, 'user_interests', 'Succesfully deleted the User Interests.'))
     .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
 });
 

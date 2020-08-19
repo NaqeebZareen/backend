@@ -1,5 +1,6 @@
 const crudRepository = require('../../infrastructure/repositories/simple_crud')
 const { NewsBookmark, SearchBookmark, DeleteNewsBookmark } = require('../../domain/bookmarks')
+const bookmarksRepo = require('../../infrastructure/repositories/bookmarks-repo')
 
 const USERS_BOOKMARKS_COLLECTION = 'users_bookmarks'
 
@@ -50,11 +51,13 @@ module.exports = class BookmarksController {
         return true;
     }
 
-    async findUserBookmarks(arr) {
-        let searchEntity = new SearchBookmark(arr);
-        let data = {};
-        data = await crudRepository(USERS_BOOKMARKS_COLLECTION).findOne(searchEntity, null, ['news','activities']);
-        console.log('bookmarks from db=> ', data);
+    async findActivityBookmarks(arr) {
+        let data = await bookmarksRepo.ativityList(arr.userId);
+        return data;
+    }
+
+    async findNewsBookmarks(arr){
+        let data = await bookmarksRepo.newsList(arr.userId);
         return data;
     }
 
@@ -62,6 +65,7 @@ module.exports = class BookmarksController {
         console.log(arr);
         let searchEntity = new SearchBookmark(arr);
         let newsBookmarkEntity = null;
+        bookmarksRepo.saveActivity(arr.activityId,arr.userId);
         crudRepository(USERS_BOOKMARKS_COLLECTION).findOne(searchEntity)
             .then(data => {
                 if (data) {
@@ -85,6 +89,7 @@ module.exports = class BookmarksController {
     async removeActivityBookmark(arr) {
         console.log(arr);
         let searchEntity = new SearchBookmark(arr);
+        bookmarksRepo.removeActivity(arr.activityId, arr.userId);
         crudRepository(USERS_BOOKMARKS_COLLECTION).findOne(searchEntity)
             .then(data => {
                 if (data) {

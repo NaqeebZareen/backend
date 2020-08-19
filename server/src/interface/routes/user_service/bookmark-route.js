@@ -10,20 +10,21 @@ const router = express.Router();
 
 
 
-router.get('/list', async (req, res, next) => {
+router.get('/activity/list', async (req, res, next) => {
     let params = { userId: req.user };
-    serviceCalls.callUserService('get_bookmarks', params)
+    serviceCalls.callUserService('get_activity_bookmarks', params)
         .then(async data => {
-            let newsData = { Ok: [] };
-            if (data.Ok) {
-                params = { newsIdArray: data.Ok.news };
-                newsData = await serviceCalls.callNewsService('get_news_by_id_array', params);
-                console.log('news Data=>', newsData);
-                newsData.Ok.map(obj => {
-                    obj.isBookmarked = true;
-                });
-            }
-            responseHelper.generateResponse(req, res, newsData, 'user_bookmarks', 'successfully fetched the Bookmarks of user', 200)
+            responseHelper.generateResponse(req, res, data, 'activity_bookmarks', 'successfully fetched the Bookmarks of user', 200)
+        })
+        .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
+
+});
+
+router.get('/news/list', async (req, res, next) => {
+    let params = { userId: req.user };
+    serviceCalls.callUserService('get_news_bookmarks', params)
+        .then(async data => {
+            responseHelper.generateResponse(req, res, data, 'news_bookmarks', 'successfully fetched the Bookmarks of user', 200)
         })
         .catch(err => next(new ErrorHandler({ status: 503, message: 'The service you are trying to reach is not available. Please try Again Later' })));
 

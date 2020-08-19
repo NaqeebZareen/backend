@@ -21,10 +21,6 @@ seneca.add(ACTION_NAME('get_user_profile'), async (arr, done) => {
         console.log('inside error',err);
         let customError = err.message;
         log.error({ err }, `Error occured while getting anonymus token  - Message =>  ${err.message}`);
-        if (err.code == 11000) {
-            err.message = `This Record has been Already Registered with our system try using another`;
-            customError = { message: err.message, keyValue: err.keyValue }
-        }
         done(null, { Error: customError });
     }
 })
@@ -123,7 +119,7 @@ seneca.add(ACTION_NAME('remove_user_interests'), async (arr, done) => {
         console.log(`aftet processing of request ====>>`, data);
         // log.info(`successfully generated message for user ${message.to}`);
         // internalRoute.sendEmail(message);
-        done(null, { Ok: data })
+        done(null, { Ok: {} })
     } catch (err) {
         log.error({ err }, `Error occured while sending email - Message => ${err.message}`);
         done(null, { Error: err.message });

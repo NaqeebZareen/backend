@@ -49,27 +49,41 @@ seneca.add(ACTION_NAME('delete_news_from_bookmarks'), async (arr, done) => {
         url: process.env.AMQP_URL
     });
 
-seneca.add(ACTION_NAME('get_bookmarks'), async (arr, done) => {
+seneca.add(ACTION_NAME('get_activity_bookmarks'), async (arr, done) => {
     try {
         arr = arr.params;
-        let data = await bookmarksService.findUserBookmarks(arr);
+        let data = await bookmarksService.findActivityBookmarks(arr);
         log.info({ data }, `Bookmarks Retrivve successfully`);
         done(null, { Ok: data });
     } catch (err) {
         let customError = err.message;
-        log.error({ err }, `Error occured while getting token with social Login  - Message =>  ${err.message}`);
-        if (err.keyValue.userId) {
-            err.message = `This Token has been Already Registered with our system try using another`;
-            customError = { message: err.message, keyValue: { token: jsonwebtoken.sign(arr.userId, config.jwtSecret) } };
-        }
+        log.error({ err }, `Error occured while getting the bookmarks  - Message =>  ${err.message}`);
         done(null, { Error: customError })
     }
 })
     .listen({
         type: 'amqp',
-        pin: ACTION_NAME('get_bookmarks'),
+        pin: ACTION_NAME('get_activity_bookmarks'),
         url: process.env.AMQP_URL
     });
+
+    seneca.add(ACTION_NAME('get_news_bookmarks'), async (arr, done) => {
+        try {
+            arr = arr.params;
+            let data = await bookmarksService.findNewsBookmarks(arr);
+            log.info({ data }, `Bookmarks Retrivve successfully`);
+            done(null, { Ok: data });
+        } catch (err) {
+            let customError = err.message;
+            log.error({ err }, `Error occured while getting the bookmarks  - Message =>  ${err.message}`);
+            done(null, { Error: customError })
+        }
+    })
+        .listen({
+            type: 'amqp',
+            pin: ACTION_NAME('get_news_bookmarks'),
+            url: process.env.AMQP_URL
+        });
 
 seneca.add(ACTION_NAME('add_activity_to_bookmarks'), async (arr, done) => {
     try {
