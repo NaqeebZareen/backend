@@ -8,8 +8,8 @@ let client = {
 };
 
 async function connentToServer() {
-  client = await MongoClient.connect(process.env.DB_HOST, config.mongoOptions);
-  db = client.db(process.env.DB_NAME);
+  client = await MongoClient.connect(config.mongoConnection.uri, config.mongoOptions);
+  db = client.db(config.mongoConnection.dbName);
   log.info('connected to DATABASE');
 };
 

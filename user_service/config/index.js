@@ -1,5 +1,9 @@
 module.exports = {
 
+    mongoConnection:{
+        uri:`mongodb+srv://backend:admin@youcan-stable.ms4fp.mongodb.net/<dbname>?retryWrites=true&w=majority`,
+        dbName:'userServiceDb',
+    },
     mongoOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -14,6 +18,6 @@ module.exports = {
         region: process.env.AWS_REGION
     },
 
-    jwtSecret: process.env.JWT_SECRET,
+    jwtSecret: process.env.JWT_SECRET || 'IloveMyselfsomehow',
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || "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"
 };

@@ -65,6 +65,7 @@ module.exports = class AutherticatorService {
 
     async loginUser(arr) {
         let { userData, userDetailData } = await userService.findUser({ userId: arr.userId }, true);
+        console.log(`this the detaile data with token data=>\n\n\\n\n\n\n\n`,userData, userDetailData);
         if (userData && !userDetailData)
             await userService.createUserProfile(arr);
         else throw new Error(`No record found for specific Token Provided`);

@@ -60,7 +60,7 @@ seneca.add(ACTION_NAME('login_user'), async (arr, done) => {
     } catch (err) {
         let customError = err.message;
         log.error({ err }, `Error occured while getting token with social Login  - Message =>  ${err.message}`);
-        if (err.keyValue.userId) {
+        if (err.keyValue) {
             err.message = `This Token has been Already Registered with our system try using another`;
             customError = { message: err.message, keyValue: { token: jsonwebtoken.sign(arr.userId, config.jwtSecret) } };
         }
