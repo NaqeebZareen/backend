@@ -13,6 +13,7 @@ seneca.add(ACTION_NAME('get_news_listing'), async (arr, done) => {
         console.log('in route with params ====>>>>', arr.params);
         arr = arr.params;
         let data = await newsService.filterNews(arr);
+        console.log(data);
         log.info(`Data fetch for lissting ofs news`, { data });
         done(null, { Ok: data });
     } catch (err) {

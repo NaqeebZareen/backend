@@ -1,3 +1,4 @@
 {"level":"error","message":"Error occured while getting news Data - Message =>  syntax error at or near \")\""}
 {"level":"error","message":"Error occured while getting news Data - Message =>  syntax error at or near \")\""}
 {"level":"error","message":"Error occured while getting news Data - Message =>  Cannot read property 'positive_votes' of undefined"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  bind message supplies 6 parameters, but prepared statement \"\" requires 0"}

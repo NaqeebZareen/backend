@@ -32,7 +32,7 @@ module.exports = class UserController {
         let userDetailData = await crudRepository(USER_DETAILS_COLECTION)
             .findOne(userSearchEntity, null, ['firstName', 'lastName', 'picture', 'email']);
             console.log(`after processiing trhr database =>>>>`,userData,userDetailData);
-        return Object.assign(userDetailData, userData);
+        return userDetailData?Object.assign(userDetailData, userData):{}
     }
 
     async updateProfile(userIdObject, updationObject) {

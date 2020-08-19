@@ -41,34 +41,36 @@ module.exports = class AutherticatorService {
     async registerUser(arr) {
         let { userData, userDetailData } = await userService.findUser({ userId: arr.userId }, true);
         console.log('data from finding the user data', userDetailData);
-        let securityCode = null;
+        let authCode = null;
         if (!userData)
             throw new Error('No record found for specific Token Provided');
         if (userDetailData) {
             console.log('inside after getting record');
-            securityCode = await userService.updateSecurityCode({ userId: arr.userId });
+            authCode = await userService.updateSecurityCode({ userId: arr.userId });
         } else {
             console.log('profile not found');
-            securityCode = await userService.createUserProfile(arr).securityCode;
+            let profileData = await userService.createUserProfile(arr);
+            authCode = profileData.securityCode;
         }
         let email = new EmailMessage({
             to: arr.email,
             from: 'noreply@youcan.tech',
             subject: 'Verification Code',
-            html: verifyEmail(securityCode)
+            html: verifyEmail(authCode)
         });
         sendgridMail.send(email)
-            .then(data => console.log(data))
-            .catch(err => console.log(err));
+            .then(data => console.log(data.response))
+            .catch(err => console.log(err.message));
         return { email: arr.email };
     }
 
     async loginUser(arr) {
         let { userData, userDetailData } = await userService.findUser({ userId: arr.userId }, true);
-        console.log(`this the detaile data with token data=>\n\n\\n\n\n\n\n`,userData, userDetailData);
-        if (userData && !userDetailData)
+        console.log(`this the detaile data with token data=>\n\n\\n\n\n\n\n`, userData, userDetailData);
+        if (!userData)
+            throw new Error(`No record found for specific Token Provided`);
+        if (!userDetailData)
             await userService.createUserProfile(arr);
-        else throw new Error(`No record found for specific Token Provided`);
         return userData.token
     }
 }

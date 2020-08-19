@@ -27,6 +27,6 @@ module.exports = class UserInterestsController {
     async findUserInterest(arr) {
         let searchEntity = new SearchUserInterests({ userId: arr.userId });
         let data = await crudRepository(INTEREST_COLLECTION).findOne(searchEntity, null, ['userInterests']);
-        return data.userInterests;
+        return data? data.userInterests: {};
     }
 }
