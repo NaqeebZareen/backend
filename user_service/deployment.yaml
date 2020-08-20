@@ -21,11 +21,3 @@ spec:
         env:
         - name: AMQP_URL
           value: rabbitmq-service:8081
-        - name: database_host
-          value: "youcav-db.cnfabpkcjfhv.us-east-1.rds.amazonaws.com"
-        - name: database_password
-          value: Qwerty12
-        - name: schema
-          value: activityservice
-        - name : elasticsearch
-          value : https://search-youcan-oaukgyoxh2j74tmhs2mo4y7dge.us-east-1.es.amazonaws.com

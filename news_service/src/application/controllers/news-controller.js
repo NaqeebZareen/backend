@@ -7,7 +7,7 @@ module.exports = class UserController {
     async findNewsById(filterObject) {
         // let newsSearchEntity = new SearchNewsById(newsIdObject);
         let offset = Math.floor(Math.random() * 250);
-        let data = await newsRepository.searchDetailedNews(filterObject.newsId,filterObject.userId, offset);
+        let data = await newsRepository.searchDetailedNews(filterObject.newsId, filterObject.userId, offset);
         console.log('similar news with data=>>>', data);
         return data;
         // return { userData, userDetailData }
@@ -27,15 +27,20 @@ module.exports = class UserController {
         let data = null;
         let userVoteData = await newsRepository.getUserVote(arr.newsId, arr.userId);
         if (!userVoteData) {
-            newsRepository.addUserVote(arr.newsId, arr.userId, true, false);
+            newsRepository.addUserVote(arr.newsId, arr.userId, true, false, false);
             data = await newsRepository.upVoteNews(arr.newsId);
         }
         else {
             if (userVoteData.positive_voted)
                 throw new Error(`User has Already Up Voted the News with ID ${arr.newsId}`);
-            newsRepository.updateUserVote(arr.newsId, arr.userId, true, false);
+            else newsRepository.updateUserVote(arr.newsId, arr.userId, true, false, false);
+            if (userVoteData.negative_voted)
+                newsRepository.updateVotes(arr.newsId, true, false, true);
+            if (userVoteData.unsure)
+                newsRepository.updateVotes(arr.newsId, true, true, false);
             data = await newsRepository.upVoteNews(arr.newsId);
         }
+        data.up_voted = true;
         return data;
     }
 
@@ -44,15 +49,20 @@ module.exports = class UserController {
         let userVoteData = await newsRepository.getUserVote(arr.newsId, arr.userId);
         console.log(userVoteData);
         if (!userVoteData) {
-            newsRepository.addUserVote(arr.newsId, arr.userId, false, true);
+            newsRepository.addUserVote(arr.newsId, arr.userId, false, true, false);
             data = await newsRepository.downVoteNews(arr.newsId);
         }
         else {
             if (userVoteData.negative_voted)
                 throw new Error(`User has Already Down Voted the News with ID ${arr.newsId}`);
-            newsRepository.updateUserVote(arr.newsId, arr.userId, false, true);
+            else newsRepository.updateUserVote(arr.newsId, arr.userId, false, true, false);
+            if (userVoteData.positive_voted)
+                newsRepository.updateVotes(arr.newsId, false, true, true);
+            if (userVoteData.unsure)
+                newsRepository.updateVotes(arr.newsId, true, true, false);
             data = await newsRepository.downVoteNews(arr.newsId);
         }
+        data.down_voted = true;
         return data;
     }
 
@@ -77,6 +87,39 @@ module.exports = class UserController {
         else if (userVoteData.negative_voted)
             data = await newsRepository.removeDownVoteFromNews(arr.newsId, arr.userId);
         else throw new Error(`User didn't have any negative votes for news ${arr.newsId}`);
+        return data;
+    }
+
+    async unsureVoteNews(arr) {
+        let data = null;
+        let userVoteData = await newsRepository.getUserVote(arr.newsId, arr.userId);
+        if (!userVoteData) {
+            newsRepository.addUserVote(arr.newsId, arr.userId, false, false, true);
+            data = await newsRepository.unsureVoteNews(arr.newsId);
+        }
+        else {
+            if (userVoteData.unsure)
+                throw new Error(`User has Already unsure Voted the News with ID ${arr.newsId}`);
+            else newsRepository.updateUserVote(arr.newsId, arr.userId, false, false, true);
+            if (userVoteData.positive_voted)
+                newsRepository.updateVotes(arr.newsId, false, true, true);
+            if (userVoteData.negative_voted)
+                newsRepository.updateVotes(arr.newsId, true, false, true);
+            data = await newsRepository.unsureVoteNews(arr.newsId);
+        }
+        data.unsure_voted = true;
+        return data;
+    }
+
+    async removeUnsureVoteFromNews(arr) {
+        let data = {};
+        let userVoteData = await newsRepository.getUserVote(arr.newsId, arr.userId);
+        console.log(userVoteData);
+        if (!userVoteData)
+            throw new Error(`No record to found to remove the unsure vote`);
+        else if (userVoteData.unsure)
+            data = await newsRepository.removeUnsureVoteFromNews(arr.newsId, arr.userId);
+        else throw new Error(`User didn't have any unsure votes for news ${arr.newsId}`);
         return data;
     }
 }

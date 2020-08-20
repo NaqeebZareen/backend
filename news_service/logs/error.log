@@ -2,3 +2,11 @@
 {"level":"error","message":"Error occured while getting news Data - Message =>  syntax error at or near \")\""}
 {"level":"error","message":"Error occured while getting news Data - Message =>  Cannot read property 'positive_votes' of undefined"}
 {"level":"error","message":"Error occured while getting news Data - Message =>  bind message supplies 6 parameters, but prepared statement \"\" requires 0"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already not Sure Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  No record to found to remove the Down vote"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  No record to found to remove the Down vote"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already Up Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already Down Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  ture is not defined"}
