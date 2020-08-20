@@ -22,6 +22,7 @@ const activitySearch = Joi.object().keys({
 // const activitySearch = Joi.alternatives(activitySearchWithSingleDate,activitySearchWithDateRange);
 
 const activityListing = Joi.object().keys({
+    categories: Joi.array().min(1).max(15).items(Joi.string().required()).optional(),
     city: Joi.string().required(),
     pageNo: Joi.number().required(),
     recordsPerPage: Joi.number().required()

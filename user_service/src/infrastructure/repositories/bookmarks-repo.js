@@ -67,7 +67,7 @@ const newsList = async (userId) => {
 }
 
 const ativityList = async (userId) => {
-    let query = `select a.title, a.summary,
+    let query = `select a.id, a.title, a.summary,
     a.picture, a.category, a.city,
     a.source_name, a.source_link, a.share_link,
     a.start_date, a.start_time, a.end_date, a.end_time,sa.saved 
