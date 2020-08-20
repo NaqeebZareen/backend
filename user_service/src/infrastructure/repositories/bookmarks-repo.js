@@ -38,7 +38,7 @@ const removeActivity = async (activityId, userId) => {
 
 const removeNews = async (newsId, userId) => {
     let query = `DELETE FROM newsservice.saved_news
-    WHERE user_id='${userId}' AND activity_id=${newsId};`
+    WHERE user_id='${userId}' AND news_id=${newsId};`
     console.log(query);
     try {
         const { rows } = await db.query(query);
