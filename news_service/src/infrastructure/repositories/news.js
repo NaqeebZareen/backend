@@ -3,45 +3,33 @@ const { repoHelper } = require('../../../utils')
 
 
 const searchNews = async (filterObject, userId, limit, offset) => {
-    // let query = `SELECT * from newsservice.news_listing($1,$2,$3,$4,$5,$6);`
-    let query =`SELECT n.id, n.title , n.sub_heading, n.summary,
-    n.publication_date, n.picture, n.source_name, n.source_link,
-    n.share_link, n.city,sn.saved,
-    nv.positive_votes,nv.negative_votes,
-    nv.positive_percentage,nv.negative_percentage,
-    uv.positive_voted ,uv.negative_voted
-    FROM newsservice.news n
-    join newsservice.news_votes nv
-    on n.id =nv.news_id
-    join newsservice.similar_news simi
-    on n.id=simi.news_id and simi.news_id = 216637
-    left join newsservice.saved_news sn 
-    on n.id =sn.news_id and sn.user_id = '${userId}'
-    left join newsservice.user_votes uv
-    on n.id =uv.news_id and uv.user_id= '${userId}'
-    where n.id = any(simi.similar_news_list);`
-    console.log(query,filterObject);
+    let query = `SELECT * from newsservice.news_listing($1,$2,$3,$4,$5,$6);`
+    console.log(query, filterObject);
     const values = [filterObject.text, filterObject.city, filterObject.publication_date,
         userId, limit, offset];
     try {
-        const { rows } = await db.query(query);
+        const { rows } = await db.query(query, values);
         return (rows);
     } catch (error) {
         throw (error);
     }
 }
 
-const searchDetailedNews = async (newsId, userId,offset) => {
+const searchDetailedNews = async (newsId, userId, offset) => {
     let query = `SELECT * from newsservice.search_by_id(${newsId},'${userId}}');`
     try {
         const { rows } = await db.query(query);
         let newsDetail = rows[0];
         console.log('News Details=>>>>>>', newsDetail);
-        let similarNewsQuery = `SELECT n.id, n.duplicate_title as title, n.sub_heading, n.publication_date, n.picture, n.source_name, n.city,nv.positive_votes,nv.negative_votes,n.is_bookmarked 
-        FROM newsservice.news n
-        join newsservice.news_votes nv 
-        on n.id =nv.news_id 
-        where n.status='Approved' limit 8 offset ${offset};`
+        let similarNewsQuery = ` SELECT n.id, n.duplicate_title as title, n.sub_heading, 
+        n.publication_date, n.picture, n.source_name, n.city,
+        nv.positive_votes,nv.negative_votes, sn.saved
+               FROM newsservice.news n
+               join newsservice.news_votes nv 
+               on n.id =nv.news_id 
+               left join newsservice.saved_news sn
+               on n.id =sn.news_id and sn.user_id ='${userId}'
+               where n.status='Approved' limit 8 offset ${offset};`
         similarNews = await db.query(similarNewsQuery);
         return { news_detail: newsDetail, similar_news: similarNews.rows }
         // return (rows[0]);
