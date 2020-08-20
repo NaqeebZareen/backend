@@ -7,12 +7,22 @@ const USERS_BOOKMARKS_COLLECTION = 'users_bookmarks'
 module.exports = class BookmarksController {
 
     async addNewsBookmark(arr) {
-        bookmarksRepo.saveNews(arr.newsId, arr.userId);
+        bookmarksRepo.saveNews(arr.newsId, arr.userId)
+            .then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
         return true;
     }
 
     async removeNewsBookmark(arr) {
-        bookmarksRepo.removeNews(arr.newsId, arr.userId);
+        bookmarksRepo.removeNews(arr.newsId, arr.userId)
+            .then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
         return true;
     }
 
@@ -21,18 +31,28 @@ module.exports = class BookmarksController {
         return data;
     }
 
-    async findNewsBookmarks(arr){
+    async findNewsBookmarks(arr) {
         let data = await bookmarksRepo.newsList(arr.userId);
         return data;
     }
 
     async addActivityBookmark(arr) {
-        bookmarksRepo.saveActivity(arr.activityId,arr.userId);
+        bookmarksRepo.saveActivity(arr.activityId, arr.userId)
+            .then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
         return true;
     }
 
     async removeActivityBookmark(arr) {
-        bookmarksRepo.removeActivity(arr.activityId, arr.userId);
+        bookmarksRepo.removeActivity(arr.activityId, arr.userId)
+            .then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
         return true;
     }
 }

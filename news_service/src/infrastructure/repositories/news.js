@@ -62,7 +62,8 @@ const searchNewsByIdArray = async IdArray => {
 const upVoteNews = async (newsId) => {
     let query = `UPDATE newsservice.news_votes
     SET positive_votes=positive_votes+1
-    WHERE news_id=$1 returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    WHERE news_id=$1 
+    returning positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
     let values = [newsId];
     try {
         const { rows } = await db.query(query, values);
@@ -79,7 +80,8 @@ const upVoteNews = async (newsId) => {
 const downVoteNews = async (newsId) => {
     let query = `UPDATE newsservice.news_votes
     SET negative_votes=negative_votes+1
-    WHERE news_id=$1 returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    WHERE news_id=$1 
+    returning positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
     let values = [newsId];
     try {
         const { rows } = await db.query(query, values);
@@ -96,7 +98,8 @@ const downVoteNews = async (newsId) => {
 const removeUpVoteFromNews = async (newsId, userId) => {
     let query = `UPDATE newsservice.news_votes
     SET positive_votes=positive_votes-1
-    WHERE news_id=$1 returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    WHERE news_id=$1 
+    returning positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
     let values = [newsId];
     let queryToDeleteUserVote = `DELETE FROM newsservice.user_votes WHERE news_id=$1 AND user_id=$2`;
     let deleteParameters = [newsId, userId]
@@ -116,7 +119,8 @@ const removeUpVoteFromNews = async (newsId, userId) => {
 const removeDownVoteFromNews = async (newsId, userId) => {
     let query = `UPDATE newsservice.news_votes
     SET negative_votes=negative_votes-1
-    WHERE news_id=$1 returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    WHERE news_id=$1 
+    returning positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
     let values = [newsId];
     let queryToDeleteUserVote = `DELETE FROM newsservice.user_votes WHERE news_id=$1 AND user_id=$2`;
     let deleteParameters = [newsId, userId]
@@ -133,11 +137,11 @@ const removeDownVoteFromNews = async (newsId, userId) => {
     }
 }
 
-const addUserVote = async (newsId, userId, positive_voted, negative_voted) => {
+const addUserVote = async (newsId, userId, positive_voted, negative_voted, unsure) => {
     let query = `INSERT INTO newsservice.user_votes
-    (news_id, user_id,positive_voted,negative_voted)
-    VALUES($1,$2,$3,$4);`
-    let values = [newsId, userId, positive_voted, negative_voted];
+    (news_id, user_id,positive_voted,negative_voted,unsure)
+    VALUES($1,$2,$3,$4,$5);`
+    let values = [newsId, userId, positive_voted, negative_voted, unsure];
     try {
         return await db.query(query, values);
     } catch (error) {
@@ -148,7 +152,7 @@ const addUserVote = async (newsId, userId, positive_voted, negative_voted) => {
 }
 
 const getUserVote = async (newsId, userId) => {
-    let query = `SELECT news_id, user_id, positive_voted, negative_voted
+    let query = `SELECT news_id, user_id, positive_voted, negative_voted,unsure
     FROM newsservice.user_votes  where news_id = $1 AND user_id=$2;`
     let values = [newsId, userId];
     try {
@@ -159,20 +163,62 @@ const getUserVote = async (newsId, userId) => {
     }
 }
 
-const updateUserVote = async (newsId, userId, positive_voted, negative_voted) => {
+const updateUserVote = async (newsId, userId, positive_voted, negative_voted, unsure) => {
     let query = `UPDATE newsservice.user_votes
-    SET positive_voted=$3, negative_voted=$4, updated_at=now()
+    SET positive_voted=$3, negative_voted=$4, unsure=$5, updated_at=now()
     WHERE news_id=$1 and user_id = $2;`
-    let values = [newsId, userId, positive_voted, negative_voted];
-    let queryToUpdateVotes = `UPDATE newsservice.news_votes
-    SET positive_votes=case when ${negative_voted} then positive_votes-1 else positive_votes end,
-    negative_votes =case when ${positive_voted} then negative_votes-1 else negative_votes end
-    WHERE news_id=${newsId} returning positive_votes,negative_votes,positive_percentage,negative_percentage;`
+    let values = [newsId, userId, positive_voted, negative_voted, unsure];
 
     try {
-        db.query(queryToUpdateVotes);
         let { rows } = await db.query(query, values);
         return rows[0];
+    } catch (error) {
+        throw (error);
+    }
+}
+
+const updateVotes = async (newsId, positive_voted, negative_voted, unsure) => {
+    let queryToUpdateVotes = `UPDATE newsservice.news_votes
+    SET positive_votes=case when ${negative_voted} and ${unsure} then positive_votes-1 else positive_votes end,
+    unsure_votes=case when ${negative_voted} and ${positive_voted} then unsure_votes-1 else unsure_votes end,
+    negative_votes =case when ${positive_voted} and ${unsure} then negative_votes-1 else negative_votes end
+    WHERE news_id=${newsId} 
+    returning positive_votes,negative_votes,unsure,positive_percentage,negative_percentage,unsure_percentage;`
+
+    try {
+        let { rows } = await db.query(queryToUpdateVotes);
+        return rows;
+    } catch (error) {
+        throw (error);
+    }
+}
+
+const unsureVoteNews = async (newsId) => {
+    let query = `UPDATE newsservice.news_votes
+    SET unsure_votes=unsure_votes+1
+    WHERE news_id=$1 returning 
+    positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
+    let values = [newsId];
+    try {
+        const { rows } = await db.query(query, values);
+        return (rows);
+    } catch (error) {
+        throw (error);
+    }
+}
+
+const removeUnsureVoteFromNews = async (newsId, userId) => {
+    let query = `UPDATE newsservice.news_votes
+    SET unsure_votes=unsure_votes-1
+    WHERE news_id=$1 
+    returning positive_votes,negative_votes,unsure_votes,positive_percentage,negative_percentage,unsure_percentage;`
+    let values = [newsId];
+    let queryToDeleteUserVote = `DELETE FROM newsservice.user_votes WHERE news_id=$1 AND user_id=$2`;
+    let deleteParameters = [newsId, userId]
+    try {
+        db.query(queryToDeleteUserVote, deleteParameters);
+        const { rows } = await db.query(query, values);
+        return (rows);
     } catch (error) {
         throw (error);
     }
@@ -188,5 +234,8 @@ module.exports = {
     removeDownVoteFromNews,
     addUserVote,
     getUserVote,
-    updateUserVote
+    updateUserVote,
+    unsureVoteNews,
+    removeUnsureVoteFromNews,
+    updateVotes
 }

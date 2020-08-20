@@ -89,6 +89,26 @@ seneca.add(ACTION_NAME('up_vote_news'), async (arr, done) => {
         url: process.env.AMQP_URL
     });
 
+seneca.add(ACTION_NAME('unsure_vote_news'), async (arr, done) => {
+    try {
+        console.log('in route with params ====>>>>', arr.params);
+        arr = arr.params;
+        let data = await newsService.unsureVoteNews(arr);
+        log.info(`Data fetch for lissting ofs news`, { data });
+        done(null, { Ok: data });
+    } catch (err) {
+        console.log('inside error', err);
+        let customError = err.message;
+        log.error(`Error occured while getting news Data - Message =>  ${err.message}`);
+        done(null, { Error: customError });
+    }
+})
+    .listen({
+        type: 'amqp',
+        pin: ACTION_NAME('unsure_vote_news'),
+        url: process.env.AMQP_URL
+    });
+
 seneca.add(ACTION_NAME('down_vote_news'), async (arr, done) => {
     try {
         console.log('in route with params ====>>>>', arr.params);
@@ -146,6 +166,26 @@ seneca.add(ACTION_NAME('remove_down_vote_news'), async (arr, done) => {
     .listen({
         type: 'amqp',
         pin: ACTION_NAME('remove_down_vote_news'),
+        url: process.env.AMQP_URL
+    });
+
+seneca.add(ACTION_NAME('remove_unsure_vote_news'), async (arr, done) => {
+    try {
+        console.log('in route with params ====>>>>', arr.params);
+        arr = arr.params;
+        let data = await newsService.removeUnsureVoteFromNews(arr);
+        log.info(`Data fetch for lissting ofs news`, { data });
+        done(null, { Ok: data });
+    } catch (err) {
+        console.log('inside error', err);
+        let customError = err.message;
+        log.error(`Error occured while getting news Data - Message =>  ${err.message}`);
+        done(null, { Error: customError });
+    }
+})
+    .listen({
+        type: 'amqp',
+        pin: ACTION_NAME('remove_unsure_vote_news'),
         url: process.env.AMQP_URL
     });
 

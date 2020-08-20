@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e txt,js,html,json -L ./app.js",
+    "start": "nodemon -e log,js,html,json -L ./app.js",
     "prestart": "npm install"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "nodemon": "^1.19.3",
     "pg": "^8.3.2",
     "seneca": "^3.13.3",
-    "seneca-amqp-transport": "^2.2.0"
+    "seneca-amqp-transport": "^2.2.0",
+    "winston": "^3.3.3"
   }
 }
