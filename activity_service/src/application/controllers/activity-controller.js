@@ -1,11 +1,13 @@
-const { SearchActivityByDate, SearchActivityByRange } = require('../../domain/activity')
+const { SearchActivityByDate, SearchActivityByRange,ActivityListing } = require('../../domain/activity')
 const actiivityRepository = require('../../infrastructure/repositories/activity')
 
 
 module.exports = class ActivityController {
 
     async getListing(arr) {
-        let data = await actiivityRepository.activityListing(arr.city, arr.userId, arr.limit, arr.offset);
+        console.log(arr);
+        let searchEntity = new ActivityListing(arr);
+        let data = await actiivityRepository.activityListing(searchEntity,arr.userId, arr.limit, arr.offset);
         return data;
     }
 
