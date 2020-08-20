@@ -3,7 +3,8 @@
   "version": "1.5.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e txt,js,json -L ./bin/www"
+    "start": "nodemon -e txt,js,json -L ./bin/www",
+    "prestart": "npm install"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

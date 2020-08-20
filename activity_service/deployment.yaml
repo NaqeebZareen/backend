@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userservice-deployment
+  name: activity-deployment
 spec:
   replicas: 1
   selector:
@@ -11,11 +11,11 @@ spec:
     metadata:
       labels:
         app: youcan_backend
-        tier: userservice-deployment
+        tier: activity-deployment
     spec:
       containers:
-      - name: userservice-deployment
-        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/user:1.1.0
+      - name: activity-deployment
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/activityservice:1.1.0
         args:
         - ./scripts/Entrypoint.sh
         env:
