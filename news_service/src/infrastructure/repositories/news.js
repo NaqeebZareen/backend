@@ -23,7 +23,7 @@ const searchDetailedNews = async (newsId, userId, offset) => {
         console.log('News Details=>>>>>>', newsDetail);
         let similarNewsQuery = ` SELECT n.id, n.duplicate_title as title, n.sub_heading, 
         n.publication_date, n.picture, n.source_name, n.city,
-        nv.positive_votes,nv.negative_votes, sn.saved
+        nv.positive_votes,nv.negative_votes,nv.unsure_votes,nv.total_votes, sn.saved
                FROM newsservice.news n
                join newsservice.news_votes nv 
                on n.id =nv.news_id 
