@@ -4,19 +4,11 @@ const { repoHelper } = require('../../../utils')
 
 const searchNews = async (filterObject, userId, limit, offset) => {
     let query = `SELECT * from newsservice.news_listing($1,$2,$3,$4,$5,$6);`
-<<<<<<< HEAD
-    console.log(query,filterObject);
-    const values = [filterObject.text, filterObject.city, filterObject.publication_date,
-        userId, limit, offset];
-    try {
-        const { rows } = await db.query(query,values);
-=======
     console.log(query, filterObject);
     const values = [filterObject.text, filterObject.city, filterObject.publication_date,
         userId, limit, offset];
     try {
         const { rows } = await db.query(query, values);
->>>>>>> 2e00de909167bb384e8705082fae0329f1b192eb
         return (rows);
     } catch (error) {
         throw (error);
