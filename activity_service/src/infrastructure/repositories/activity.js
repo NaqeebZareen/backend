@@ -45,7 +45,7 @@ const searchActivitiesByDateRange = async (filterObject, userId, limit, offset) 
 }
 
 const getDetailedActivity = async (activityId, userId) => {
-    let detailQuery = `select a.title, a.summary,
+    let detailQuery = `select a.id,a.title, a.summary,
     a.picture, a.category, a.city,
     a.source_name, a.source_link, a.share_link,
     a.start_date, a.start_time, a.end_date, a.end_time, a.description ,sa.saved 
@@ -53,7 +53,7 @@ const getDetailedActivity = async (activityId, userId) => {
     left join activity_service.saved_activities sa on a.id=sa.activity_id
     AND sa.user_id= '${userId}'
     where a.id=${activityId};`
-    let similarQuery = `select a.title, a.summary,
+    let similarQuery = `select a.id,a.title, a.summary,
     a.picture, a.category, a.city,
     a.source_name, a.source_link, a.share_link,
     a.start_date, a.start_time, a.end_date, a.end_time, a.description ,sa.saved 
