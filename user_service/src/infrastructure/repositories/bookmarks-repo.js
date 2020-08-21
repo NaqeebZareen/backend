@@ -51,7 +51,8 @@ const removeNews = async (newsId, userId) => {
 const newsList = async (userId) => {
     let query = `SELECT n.id, n.title, n.sub_heading, n.publication_date, n.source_link, n.picture, n.source_name, n.city,
     n.share_link, n.summary, sn.saved, 
-    nv.negative_percentage, nv.positive_percentage,nv.positive_votes,nv.negative_votes 
+    nv.negative_percentage, nv.positive_percentage,nv.unsure_percentage,
+    nv.positive_votes,nv.negative_votes,nv.unsure_votes 
     FROM newsservice.news n 
     join newsservice.saved_news sn 
     on n.id =sn.news_id and sn.user_id ='${userId}'

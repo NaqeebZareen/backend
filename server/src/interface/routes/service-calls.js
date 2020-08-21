@@ -61,6 +61,9 @@ function callActivityService(command, params = null) {
 const callHome = {
     getcitiesAndInterestList: async () => {
         return { Ok: await homeService.getcitiesAndInterestList() };
+    },
+    getActivityCount: async (city) => {
+        return { Ok: await homeService.getActivityCount(city)}
     }
 };
 

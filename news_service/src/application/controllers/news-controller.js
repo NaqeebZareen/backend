@@ -35,9 +35,9 @@ module.exports = class UserController {
                 throw new Error(`User has Already Up Voted the News with ID ${arr.newsId}`);
             else newsRepository.updateUserVote(arr.newsId, arr.userId, true, false, false);
             if (userVoteData.negative_voted)
-                newsRepository.updateVotes(arr.newsId, true, false, true);
+                newsRepository.updateVotes(arr.newsId, false, true, false);
             if (userVoteData.unsure)
-                newsRepository.updateVotes(arr.newsId, true, true, false);
+                newsRepository.updateVotes(arr.newsId, false, false, true);
             data = await newsRepository.upVoteNews(arr.newsId);
         }
         data.up_voted = true;
@@ -57,9 +57,9 @@ module.exports = class UserController {
                 throw new Error(`User has Already Down Voted the News with ID ${arr.newsId}`);
             else newsRepository.updateUserVote(arr.newsId, arr.userId, false, true, false);
             if (userVoteData.positive_voted)
-                newsRepository.updateVotes(arr.newsId, false, true, true);
+                newsRepository.updateVotes(arr.newsId, true, false, false);
             if (userVoteData.unsure)
-                newsRepository.updateVotes(arr.newsId, true, true, false);
+                newsRepository.updateVotes(arr.newsId, false, false, true);
             data = await newsRepository.downVoteNews(arr.newsId);
         }
         data.down_voted = true;
@@ -102,9 +102,9 @@ module.exports = class UserController {
                 throw new Error(`User has Already unsure Voted the News with ID ${arr.newsId}`);
             else newsRepository.updateUserVote(arr.newsId, arr.userId, false, false, true);
             if (userVoteData.positive_voted)
-                newsRepository.updateVotes(arr.newsId, false, true, true);
+                newsRepository.updateVotes(arr.newsId, true, false, false);
             if (userVoteData.negative_voted)
-                newsRepository.updateVotes(arr.newsId, true, false, true);
+                newsRepository.updateVotes(arr.newsId, false, true, false);
             data = await newsRepository.unsureVoteNews(arr.newsId);
         }
         data.unsure_voted = true;

@@ -14,6 +14,25 @@ const homeData = async () => {
     }
 }
 
+const getActivityCount = async (city) => {
+    let query = `select category ,count(*) as activities
+    from activity_service.activities
+    where normalized_city = '${city}'
+    group by category;`;
+    try {
+        const { rows } = await db.query(query);
+        let data = { 'All': 0 };
+        rows.map(row => {
+            data.All = data.All + parseInt(row.activities);
+            data[row.category] = row.activities;
+        });
+        return data;
+    } catch (error) {
+        throw (error);
+    }
+}
+
 module.exports = {
-    homeData
+    homeData,
+    getActivityCount
 }

@@ -10,3 +10,10 @@
 {"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 238044"}
 {"level":"error","message":"Error occured while getting news Data - Message =>  User has Already Down Voted the News with ID 238044"}
 {"level":"error","message":"Error occured while getting news Data - Message =>  ture is not defined"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 238044"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  column \"new\" of relation \"news_votes\" does not exist"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already Up Voted the News with ID 235889"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  column \"new\" of relation \"news_votes\" does not exist"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already Up Voted the News with ID 235889"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 235889"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  User has Already unsure Voted the News with ID 235889"}
