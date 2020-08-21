@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: newsservice-deployment
-        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/news:1.1.3
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/news:1.1.4
         args:
         - ./scripts/Entrypoint.sh
         env:
