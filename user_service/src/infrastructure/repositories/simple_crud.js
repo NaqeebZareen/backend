@@ -24,7 +24,7 @@ module.exports = (collection) => {
         return createdObj.ops[0];
       else return null;
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
@@ -36,7 +36,7 @@ module.exports = (collection) => {
       fieldsArray.map(e => {
         projection[e] = 1
       });
-      console.log(projection);
+    console.log(projection);
     if (!client.isConnected())
       await connentToServer();
     let data = await db.collection(collection).find(condition, { sort, projection }).skip(skip).limit(limit).toArray();
@@ -70,7 +70,7 @@ module.exports = (collection) => {
   const update = async (condition, arr) => {
     if (!client.isConnected())
       await connentToServer();
-    let data = await db.collection(collection).updateOne(condition, { $set: arr });
+    let data = await db.collection(collection).updateOne(condition, { $set: arr }, { upsert: true });
     if (data.modifiedCount > 0)
       return { updated: true, updatedRecords: data.modifiedCount };
     else return { updated: false, updatedRecords: data.modifiedCount };

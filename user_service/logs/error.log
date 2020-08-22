@@ -1,0 +1,2 @@
+{"level":"error","message":{"err":{"length":92,"name":"error","severity":"ERROR","code":"42601","position":"555","file":"scan.l","line":"1128","routine":"scanner_yyerror"}}}
+{"level":"error","message":{"err":{"length":92,"name":"error","severity":"ERROR","code":"42601","position":"555","file":"scan.l","line":"1128","routine":"scanner_yyerror"}}}

@@ -49,18 +49,23 @@ const removeNews = async (newsId, userId) => {
 }
 
 const newsList = async (userId) => {
-    let query = `SELECT n.id, n.title, n.sub_heading, n.publication_date, n.source_link, n.picture, n.source_name, n.city,
-    n.share_link, n.summary, sn.saved, 
-    nv.negative_percentage, nv.positive_percentage,nv.unsure_percentage,
-    nv.positive_votes,nv.negative_votes,nv.unsure_votes 
-    FROM newsservice.news n 
-    join newsservice.saved_news sn 
-    on n.id =sn.news_id and sn.user_id ='${userId}'
-    join newsservice.news_votes nv 
-    on n.id =nv.news_id;`
+    let query = `SELECT n.id, n.title , n.sub_heading, n.summary, 
+    n.publication_date, n.picture, n.source_name, n.source_link,
+    n.share_link, n.city,sn.saved,
+    nv.positive_votes,nv.negative_votes,nv.unsure_votes,nv.total_votes , 
+    nv.positive_percentage::float,nv.negative_percentage::float,nv.unsure_percentage::float, 
+    uv.positive_voted ,uv.negative_voted,uv.unsure
+    FROM newsservice.news n
+    join newsservice.news_votes nv
+    on n.id =nv.news_id
+    inner join newsservice.saved_news sn 
+    on n.id =sn.news_id and sn.user_id = '${userId}'
+    left join newsservice.user_votes uv
+    on n.id =uv.news_id and uv.user_id= '${userId}';`
     console.log(query);
     try {
         const { rows } = await db.query(query);
+        console.log(rows);
         return (rows);
     } catch (error) {
         throw (error);
