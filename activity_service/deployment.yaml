@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: activity-deployment
-        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/activityservice:1.1.2
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/activityservice:1.1.3
         args:
         - ./scripts/Entrypoint.sh
         env:
