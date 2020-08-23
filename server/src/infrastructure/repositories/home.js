@@ -15,9 +15,9 @@ const homeData = async () => {
 }
 
 const getActivityCount = async (city) => {
-    let query = `select category ,count(*) as activities
+    let query = `select category ,count(*)::INT as activities
     from activity_service.activities
-    where normalized_city = '${city}'
+    where normalized_city = '${city}' AND start_date >= current_date
     group by category;`;
     try {
         const { rows } = await db.query(query);

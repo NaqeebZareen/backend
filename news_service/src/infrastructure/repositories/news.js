@@ -22,16 +22,7 @@ const searchDetailedNews = async (newsId, userId, offset) => {
         const { rows } = await db.query(query);
         let newsDetail = rows[0];
         console.log('News Details=>>>>>>', newsDetail);
-        let similarNewsQuery = ` SELECT n.id, n.title, n.sub_heading,n.summary, 
-        n.publication_date, n.picture, n.source_name, n.city,
-        nv.positive_votes,nv.negative_votes,nv.unsure_votes,nv.total_votes,
-        nv.positive_percentage,nv.negative_percentage,nv.unsure_percentage, sn.saved
-               FROM newsservice.news n
-               join newsservice.news_votes nv 
-               on n.id =nv.news_id 
-               left join newsservice.saved_news sn
-               on n.id =sn.news_id and sn.user_id ='${userId}'
-               where n.status='Approved' limit 8 offset ${offset};`
+        let similarNewsQuery = `SELECT * from newsservice.get_similar_news(${newsId}, '${userId}');`
         similarNews = await db.query(similarNewsQuery);
         return { news_detail: newsDetail, similar_news: similarNews.rows }
         // return (rows[0]);
