@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: push-notification-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: youcan_backend
+  template:
+    metadata:
+      labels:
+        app: youcan_backend
+        tier: push-notification-deployment
+    spec:
+      containers:
+      - name: push-notification-deployment
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/push-notification:1.0.1
+        args:
+        - ./scripts/Entrypoint.sh
+        env:
+        - name: AMQP_URL
+          value: rabbitmq-service:8081
