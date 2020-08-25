@@ -43,6 +43,16 @@ services:
       - ./news_service:/app
     command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
+  push_notification_service:
+    build: ./push_notification_service
+    environment: 
+      - AMQP_URL=rabbitmq:5672
+    depends_on: 
+      - "rabbitmq"
+    volumes: 
+      - ./push_notification_service:/app
+    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
