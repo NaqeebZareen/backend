@@ -10,4 +10,9 @@ module.exports = class HomeController {
         city = city ? city.toUpperCase() : 'SAN FRANCISCO';
         return await homeRepository.getActivityCount(city);
     }
+
+    async getReleaseFlag(arr) {
+        let data = await homeRepository.getlatestRelease(arr.plateform);
+        return (arr.appVersion >= data.release_version);
+    }
 }

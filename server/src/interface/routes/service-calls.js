@@ -80,7 +80,10 @@ const callHome = {
         return { Ok: await homeService.getcitiesAndInterestList() };
     },
     getActivityCount: async (city) => {
-        return { Ok: await homeService.getActivityCount(city)}
+        return { Ok: await homeService.getActivityCount(city) }
+    },
+    getLatestReleaseFlag: async (arr) => {
+        return { Ok: await homeService.getReleaseFlag(arr) }
     }
 };
 

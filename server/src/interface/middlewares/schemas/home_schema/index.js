@@ -1,5 +1,6 @@
-const activityCount = require('./home')
+const { activityCount, releaseFlag } = require('./home')
 
-module.exports ={
-    activityCount
+module.exports = {
+    activityCount,
+    releaseFlag
 }
