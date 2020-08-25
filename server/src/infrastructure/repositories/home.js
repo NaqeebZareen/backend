@@ -32,7 +32,19 @@ const getActivityCount = async (city) => {
     }
 }
 
+const getlatestRelease =async (plateform) => {
+    let query = `select release_version from managementpanel.releases where release_platform = '${plateform}' 
+    order by release_version desc limit 1;`;
+    try {
+        const { rows } = await db.query(query);
+        return rows[0];
+    } catch (error) {
+        throw (error);
+    }
+}
+
 module.exports = {
     homeData,
-    getActivityCount
+    getActivityCount,
+    getlatestRelease
 }
