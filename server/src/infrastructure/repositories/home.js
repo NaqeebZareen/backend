@@ -43,8 +43,20 @@ const getlatestRelease =async (plateform) => {
     }
 }
 
+const getUrlMetadata= async (url) => {
+    let query = `SELECT url, meta_title, meta_description, content_box
+    FROM managementpanel.seo where url='${url}'`;
+    try {
+        const { rows } = await db.query(query);
+        return rows[0];
+    } catch (error) {
+        throw (error);
+    }
+}
+
 module.exports = {
     homeData,
     getActivityCount,
-    getlatestRelease
+    getlatestRelease,
+    getUrlMetadata
 }
