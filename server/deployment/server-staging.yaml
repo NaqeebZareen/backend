@@ -21,7 +21,7 @@ spec:
           args:
           - ./scripts/Entrypoint.sh
           env:
-            - name: AMQP_URL
+            - name: AMQP_URL 
               value: rabbitmq-service.default.svc.cluster.local:8081
             - name : connection
               value : mongodb://Administrator:Qwerty12#$$@youcan-cluster-shard-00-00-ms4fp.gcp.mongodb.net:27017,youcan-cluster-shard-00-01-ms4fp.gcp.mongodb.net:27017,youcan-cluster-shard-00-02-ms4fp.gcp.mongodb.net:27017/server?ssl=true&replicaSet=Youcan-Cluster-shard-0&authSource=admin
