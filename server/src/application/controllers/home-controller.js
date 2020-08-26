@@ -15,4 +15,8 @@ module.exports = class HomeController {
         let data = await homeRepository.getlatestRelease(arr.plateform);
         return (arr.appVersion >= data.release_version);
     }
+
+    async getmetadata(url){
+        return await homeRepository.getUrlMetadata(url);
+    }
 }

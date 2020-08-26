@@ -6,10 +6,14 @@ const activityCount = Joi.object().keys({
 
 const releaseFlag = Joi.object().keys({
     appVersion: Joi.string().required().trim(),
-    plateform: Joi.string().required().valid('IOS','Android')
+    plateform: Joi.string().required().valid('IOS', 'Android')
 });
 
-module.exports ={
+const url = Joi.object().keys({
+    url: Joi.string().required().trim()
+});
+
+module.exports = {
     activityCount,
-    releaseFlag
+    releaseFlag, url
 }

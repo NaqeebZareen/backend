@@ -84,6 +84,9 @@ const callHome = {
     },
     getLatestReleaseFlag: async (arr) => {
         return { Ok: await homeService.getReleaseFlag(arr) }
+    },
+    getUrlMetadata: async (url)=>{
+        return { Ok: await homeService.getmetadata(url) }
     }
 };
 
