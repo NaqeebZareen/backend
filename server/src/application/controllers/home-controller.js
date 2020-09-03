@@ -1,4 +1,5 @@
 const homeRepository = require('../../infrastructure/repositories/home')
+const { CountByDate, CountByRange } = require('../../domain/activity_count')
 
 module.exports = class HomeController {
 
@@ -6,9 +7,16 @@ module.exports = class HomeController {
         return await homeRepository.homeData();
     }
 
-    async getActivityCount(city) {
-        city = city ? city.toUpperCase() : 'SAN FRANCISCO';
-        return await homeRepository.getActivityCount(city);
+    async getActivityCount(arr) {
+        console.log(arr);
+        if (arr.dateRange) {
+            let searchEntity = new CountByRange(arr);
+            return await homeRepository.getActivityCountByRange(searchEntity);
+        } else {
+            let searchEntity = new CountByDate(arr);
+            return await homeRepository.getActivityCountByDate(searchEntity);
+
+        }
     }
 
     async getReleaseFlag(arr) {
@@ -16,7 +24,7 @@ module.exports = class HomeController {
         return (arr.appVersion >= data.release_version);
     }
 
-    async getmetadata(url){
+    async getmetadata(url) {
         return await homeRepository.getUrlMetadata(url);
     }
 }
