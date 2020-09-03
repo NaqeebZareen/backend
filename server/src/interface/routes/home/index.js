@@ -22,9 +22,9 @@ router.get('/home',
             })));
     });
 
-router.post('/activity/count', validator(activityCount, 'body'),
+router.post('/activity/count', validator(activityCount, 'body',{ todayDate: new Date().toDateString()}),
     async (req, res, next) => {
-        serviceCalls.callHome.getActivityCount(req.body.city)
+        serviceCalls.callHome.getActivityCount(req.body)
             .then(async (data) => {
                 responseHelper.generateResponse(req, res, data, null, 'Fetched Home Data Succcesfully', 200)
             })
