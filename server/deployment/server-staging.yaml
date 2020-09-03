@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: newsservice
-          image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/gateway:1.0.8
+          image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/gateway:1.0.9
           ports:
             - containerPort: 3000
           args:
