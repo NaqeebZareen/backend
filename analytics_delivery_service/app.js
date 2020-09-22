@@ -14,7 +14,7 @@ date.setHours(12, 00, 00);
     let data = await analytics.getAnalyticsReport();
     let email = {
         to: [{email: 'faizan.ali@youcan.tech', name:'Faizan Ali'},{email: 'hassan.ali@youcan.tech', name:'Hassan Ali'}],
-        from: 'Support@youcan.tech',
+        from: {email:'Support@youcan.tech', name:'YouCan'},
         subject: `Daily Analytics Report --- ${new Date().toDateString()}`,
         html: `<table cellspacing="0" cellpadding="0" border="0">
         <tr>
