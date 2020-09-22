@@ -52,6 +52,12 @@ services:
     volumes: 
       - ./push_notification_service:/app
     command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  
+  email_delivery_service:
+    build: ./analytics_delivery_service
+    volumes: 
+      - ./analytics_delivery_service:/app
+    command: ["npm", "start"]
 
   rabbitmq:
     image: "rabbitmq:3-management"
