@@ -53,11 +53,21 @@ services:
       - ./push_notification_service:/app
     command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
   
-  email_delivery_service:
-    build: ./analytics_delivery_service
+  # email_delivery_service:
+  #   build: ./analytics_delivery_service
+  #   volumes: 
+  #     - ./analytics_delivery_service:/app
+  #   command: ["npm", "start"]
+
+  newsletter_service:
+    build: ./newsletter_service
+    environment: 
+      - AMQP_URL=rabbitmq:5672
+    depends_on: 
+      - "rabbitmq"
     volumes: 
-      - ./analytics_delivery_service:/app
-    command: ["npm", "start"]
+      - ./newsletter_service:/app
+    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   rabbitmq:
     image: "rabbitmq:3-management"

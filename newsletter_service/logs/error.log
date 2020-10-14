@@ -1,0 +1,7 @@
+{"level":"error","message":"Error occured while getting news Data - Message =>  Newsletter is not a constructor"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  Newsletter is not a constructor"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  Newsletter is not a constructor"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  Subscription is not a constructor"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  Cannot read property 'scheduledDate' of undefined"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  schedulerRepo.getNewsletterDetails is not a function"}
+{"level":"error","message":"Error occured while getting news Data - Message =>  sendNewsletter is not defined"}

@@ -16,6 +16,7 @@ const { usersRouter, authenticationRouter, bookmarkRouter } = require('./src/int
 const { newsRouter, newsVotingRouter } = require('./src/interface/routes/news_service');
 const { activityRoute } = require('./src/interface/routes/activity_service');
 const { pushNotificationRoute } = require('./src/interface/routes/push_notification_service');
+const { subscriptionRouter, schedulerRouter } = require('./src/interface/routes/newsletter_service');
 
 
 //Constants variables iniatialiazation 
@@ -41,6 +42,9 @@ app.use(`${APIVERSION}/news`, passport.authenticate('jwt', { session: false }), 
 app.use(`${APIVERSION}/news/vote`, newsVotingRouter);
 app.use(`${APIVERSION}/activity`, passport.authenticate('jwt', { session: false }), activityRoute);
 app.use(`${APIVERSION}/notification`, pushNotificationRoute);
+app.use(`${APIVERSION}/newsletter/subscription`, subscriptionRouter);
+app.use(`${APIVERSION}/newsletter/scheduler`, schedulerRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
