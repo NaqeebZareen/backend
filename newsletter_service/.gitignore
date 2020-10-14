@@ -1,0 +1,11 @@
+#ignore node modules
+node_modules
+
+#ignore package lock
+package-lock.json
+
+#ignore development errors 
+error_log.txt
+
+#ignore .env files
+.env

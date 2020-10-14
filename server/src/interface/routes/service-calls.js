@@ -31,6 +31,12 @@ const pushNotificationClient = seneca.client({
     url: process.env.AMQP_URL
 });
 
+const newsletterClient = seneca.client({
+    type: 'amqp',
+    pin: 'service:newsletter_service,cmd:*',
+    url: process.env.AMQP_URL
+});
+
 function callUserService(command, params = null) {
     return new Promise((resolve, reject) => {
         userClient.act(`service:user_service,cmd:${command}`, { params }, (error, data) => {
@@ -75,6 +81,17 @@ function callPushNotificationService(command, params = null) {
     });
 };
 
+function callNewsletterService(command, params = null) {
+    return new Promise((resolve, reject) => {
+        pushNotificationClient.act(`service:newsletter_service,cmd:${command}`, { params }, (error, data) => {
+            if (data)
+                resolve(data);
+            if (error)
+                reject(error);
+        });
+    });
+};
+
 const callHome = {
     getcitiesAndInterestList: async () => {
         return { Ok: await homeService.getcitiesAndInterestList() };
@@ -85,7 +102,7 @@ const callHome = {
     getLatestReleaseFlag: async (arr) => {
         return { Ok: await homeService.getReleaseFlag(arr) }
     },
-    getUrlMetadata: async (url)=>{
+    getUrlMetadata: async (url) => {
         return { Ok: await homeService.getmetadata(url) }
     }
 };
@@ -95,5 +112,6 @@ module.exports = {
     callNewsService,
     callActivityService,
     callPushNotificationService,
+    callNewsletterService,
     callHome
 }
