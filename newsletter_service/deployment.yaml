@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: newsservice-deployment
+  name: newsletter-deployment
 spec:
   replicas: 1
   selector:
@@ -11,21 +11,13 @@ spec:
     metadata:
       labels:
         app: youcan_backend
-        tier: newsservice-deployment
+        tier: newsletter-deployment
     spec:
       containers:
-      - name: newsservice-deployment
-        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/news:0.0.2
+      - name: newsletter-deployment
+        image: 034363173241.dkr.ecr.us-east-1.amazonaws.com/newsletter:0.0.1
         args:
         - ./scripts/Entrypoint.sh
         env:
         - name: AMQP_URL
           value: rabbitmq-service:8081
-        - name: database_host
-          value: "youcav-db.cnfabpkcjfhv.us-east-1.rds.amazonaws.com"
-        - name: database_password
-          value: Qwerty12
-        - name: schema
-          value: newsservice
-        - name : elasticsearch
-          value : https://search-youcan-oaukgyoxh2j74tmhs2mo4y7dge.us-east-1.es.amazonaws.com
