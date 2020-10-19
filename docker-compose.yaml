@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   server:
     build: ./server
@@ -11,65 +11,67 @@ services:
       - ./server:/app
     depends_on:
       - "rabbitmq"
-    command: ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
-  
-  user_service:
-    build: ./user_service
-    environment: 
-      - AMQP_URL=rabbitmq:5672
-    depends_on: 
-      - "rabbitmq"
-    volumes: 
-      - ./user_service:/app
-    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+    command:
+      ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+
+  # user_service:
+  #   build: ./user_service
+  #   environment:
+  #     - AMQP_URL=rabbitmq:5672
+  #   depends_on:
+  #     - "rabbitmq"
+  #   volumes:
+  #     - ./user_service:/app
+  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   activity_service:
     build: ./activity_service
-    environment: 
+    environment:
       - AMQP_URL=rabbitmq:5672
-    depends_on: 
+    depends_on:
       - "rabbitmq"
-    volumes: 
+    volumes:
       - ./activity_service:/app
-    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+    command:
+      ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
-  news_service:
-    build: ./news_service
-    environment: 
-      - AMQP_URL=rabbitmq:5672
-    depends_on: 
-      - "rabbitmq"
-    volumes: 
-      - ./news_service:/app
-    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  # news_service:
+  #   build: ./news_service
+  #   environment:
+  #     - AMQP_URL=rabbitmq:5672
+  #   depends_on:
+  #     - "rabbitmq"
+  #   volumes:
+  #     - ./news_service:/app
+  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
-  push_notification_service:
-    build: ./push_notification_service
-    environment: 
-      - AMQP_URL=rabbitmq:5672
-    depends_on: 
-      - "rabbitmq"
-    volumes: 
-      - ./push_notification_service:/app
-    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
-  
+  # push_notification_service:
+  #   build: ./push_notification_service
+  #   environment:
+  #     - AMQP_URL=rabbitmq:5672
+  #   depends_on:
+  #     - "rabbitmq"
+  #   volumes:
+  #     - ./push_notification_service:/app
+  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+
   # email_delivery_service:
   #   build: ./analytics_delivery_service
-  #   volumes: 
+  #   volumes:
   #     - ./analytics_delivery_service:/app
   #   command: ["npm", "start"]
 
-  newsletter_service:
-    build: ./newsletter_service
-    environment: 
-      - AMQP_URL=rabbitmq:5672
-    depends_on: 
-      - "rabbitmq"
-    volumes: 
-      - ./newsletter_service:/app
-    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  # newsletter_service:
+  #   build: ./newsletter_service
+  #   environment:
+  #     - AMQP_URL=rabbitmq:5672
+  #   depends_on:
+  #     - "rabbitmq"
+  #   volumes:
+  #     - ./newsletter_service:/app
+  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
-    - "5672:5672"
+      - "5672:5672"

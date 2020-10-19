@@ -3,8 +3,8 @@
   "version": "1.5.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e txt,js,json -L ./bin/www",
-    "prestart": "npm install"
+    "prestart": "npm install",
+    "start": "nodemon -e txt,js,json -L ./bin/www"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -15,7 +15,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "nodemon": "~2.0.2",
+    "nodemon": "^2.0.5",
     "passport": "~0.4.1",
     "passport-jwt": "~4.0.0",
     "pg": "^8.3.0",
