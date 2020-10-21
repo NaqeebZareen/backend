@@ -12,23 +12,11 @@ const responseHelper = require("./src/interface/helpers/response-helper");
 
 //Import Routes files
 const homeRouter = require("./src/interface/routes/home");
-const {
-  usersRouter,
-  authenticationRouter,
-  bookmarkRouter,
-} = require("./src/interface/routes/user_service");
-const {
-  newsRouter,
-  newsVotingRouter,
-} = require("./src/interface/routes/news_service");
+const { usersRouter, authenticationRouter, bookmarkRouter, } = require("./src/interface/routes/user_service");
+const { newsRouter, newsVotingRouter, } = require("./src/interface/routes/news_service");
 const { activityRoute } = require("./src/interface/routes/activity_service");
-const {
-  pushNotificationRoute,
-} = require("./src/interface/routes/push_notification_service");
-const {
-  subscriptionRouter,
-  schedulerRouter,
-} = require("./src/interface/routes/newsletter_service");
+const { pushNotificationRoute } = require("./src/interface/routes/push_notification_service");
+const { subscriptionRouter, schedulerRouter } = require("./src/interface/routes/newsletter_service");
 
 //Constants variables iniatialiazation
 const app = express();
@@ -47,22 +35,10 @@ app.use(requestDispatcher());
 //Inject Routes
 app.use(`${APIVERSION}`, homeRouter);
 app.use(`${APIVERSION}/auth`, authenticationRouter);
-app.use(
-  `${APIVERSION}/user`,
-  passport.authenticate("jwt", { session: false }),
-  usersRouter
-);
-app.use(
-  `${APIVERSION}/user/bookmarks`,
-  passport.authenticate("jwt", { session: false }),
-  bookmarkRouter
-);
-app.use(
-  `${APIVERSION}/news`,
-  passport.authenticate("jwt", { session: false }),
-  newsRouter
-);
-app.use(`${APIVERSION}/news/vote`, newsVotingRouter);
+app.use(`${APIVERSION}/user`, passport.authenticate("jwt", { session: false }), usersRouter);
+app.use(`${APIVERSION}/user/bookmarks`, passport.authenticate("jwt", { session: false }), bookmarkRouter);
+app.use(`${APIVERSION}/news`, passport.authenticate("jwt", { session: false }), newsRouter);
+app.use(`${APIVERSION}/news/vote`, newsVotingRouter); 
 app.use(`${APIVERSION}/activity`, activityRoute);
 app.use(`${APIVERSION}/notification`, pushNotificationRoute);
 app.use(`${APIVERSION}/newsletter/subscription`, subscriptionRouter);

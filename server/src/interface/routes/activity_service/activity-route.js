@@ -13,10 +13,7 @@ const {
 
 const router = express.Router();
 
-router.post(
-  "/listing",
-  validator(activityListing, "body"),
-  enablePagination,
+router.post("/listing", validator(activityListing, "body"), enablePagination,
   async (req, res, next) => {
     let params = req.body;
     params.city = params.city.toUpperCase();
@@ -51,9 +48,7 @@ router.post(
   }
 );
 
-router.post(
-  "/search",
-  validator(activitySearch, "body", { todayDate: new Date().toDateString() }),
+router.post("/search", validator(activitySearch, "body", { todayDate: new Date().toDateString() }),
   enablePagination,
   async (req, res, next) => {
     let params = req.body;
@@ -114,9 +109,7 @@ router.get("/detail", async (req, res, next) => {
     );
 });
 
-router.post(
-  "/latest",
-  validator(latestActivities, "body"),
+router.post("/latest", validator(latestActivities, "body"),
   async (req, res, next) => {
     let params = req.body;
     // params.userId = req.user;
