@@ -14,15 +14,15 @@ services:
     command:
       ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
-  # user_service:
-  #   build: ./user_service
-  #   environment:
-  #     - AMQP_URL=rabbitmq:5672
-  #   depends_on:
-  #     - "rabbitmq"
-  #   volumes:
-  #     - ./user_service:/app
-  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  user_service:
+    build: ./user_service
+    environment:
+      - AMQP_URL=rabbitmq:5672
+    depends_on:
+      - "rabbitmq"
+    volumes:
+      - ./user_service:/app
+    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   activity_service:
     build: ./activity_service
@@ -35,15 +35,15 @@ services:
     command:
       ["sh", "./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
-  # news_service:
-  #   build: ./news_service
-  #   environment:
-  #     - AMQP_URL=rabbitmq:5672
-  #   depends_on:
-  #     - "rabbitmq"
-  #   volumes:
-  #     - ./news_service:/app
-  #   command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
+  news_service:
+    build: ./news_service
+    environment:
+      - AMQP_URL=rabbitmq:5672
+    depends_on:
+      - "rabbitmq"
+    volumes:
+      - ./news_service:/app
+    command: ["sh","./scripts/wait-for-it.sh", "rabbitmq:5672", "--", "npm", "start"]
 
   # push_notification_service:
   #   build: ./push_notification_service

@@ -2,11 +2,11 @@ const db = require('../db/db-connector')
 const { repoHelper } = require('../../../utils')
 
 
-const searchNews = async (filterObject, userId, limit, offset) => {
-    let query = `SELECT * from newsservice.news_listing($1,$2,$3,$4,$5,$6);`
+const searchNews = async (filterObject, limit, offset) => {
+    let query = `SELECT * from newsservice.news_listing_without_auth($1,$2,$3,$4,$5);`
     console.log(query, filterObject);
     const values = [filterObject.text, filterObject.city, filterObject.publication_date,
-        userId, limit, offset];
+        limit, offset];
     try {
         const { rows } = await db.query(query, values);
         return (rows);
@@ -15,14 +15,14 @@ const searchNews = async (filterObject, userId, limit, offset) => {
     }
 }
 
-const searchDetailedNews = async (newsId, userId, offset) => {
-    let query = `SELECT * from newsservice.search_by_id(${newsId},'${userId}');`
+const searchDetailedNews = async (newsId) => {
+    let query = `SELECT * from newsservice.search_by_id_without_auth(${newsId});`
     console.log(query);
     try {
         const { rows } = await db.query(query);
         let newsDetail = rows[0];
         console.log('News Details=>>>>>>', newsDetail);
-        let similarNewsQuery = `SELECT * from newsservice.get_similar_news(${newsId}, '${userId}');`
+        let similarNewsQuery = `SELECT * from newsservice.get_similar_news_without_auth(${newsId});`
         similarNews = await db.query(similarNewsQuery);
         return { news_detail: newsDetail, similar_news: similarNews.rows }
         // return (rows[0]);

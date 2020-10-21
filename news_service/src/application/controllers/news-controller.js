@@ -19,7 +19,7 @@ module.exports = class UserController {
 
     async filterNews(filterObject) {
         let userSearchEntity = new SearchNews(filterObject);
-        let data = await newsRepository.searchNews(userSearchEntity, filterObject.userId, filterObject.limit, filterObject.offset);
+        let data = await newsRepository.searchNews(userSearchEntity, filterObject.limit, filterObject.offset);
         return data;
     }
 

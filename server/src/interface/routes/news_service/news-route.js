@@ -15,7 +15,7 @@ router.post('/listing', validator(newsListing, 'body'), enablePagination,
     async (req, res, next) => {
         console.log('hello from server route=>>>', req.body);
         let params = req.body;
-        params.userId = req.user;
+        // params.userId = req.user;
         serviceCalls.callNewsService('get_news_listing', params)
             .then(async (data) => {
                 data = interfaceUtils.addPaginationToRespons(data.Ok, 'news_data', req.body.pageNo);
@@ -35,7 +35,7 @@ router.post('/listing', validator(newsListing, 'body'), enablePagination,
 
 router.get('/detail', async (req, res, next) => {
     let params = { newsId: req.query.news_id }
-    params.userId = req.user;
+    // params.userId = req.user;
     serviceCalls.callNewsService('get_detailed_news', params)
         .then(async data => {
             responseHelper.generateResponse(req, res, data, null, 'successfully fetched the interests of user', 200)
